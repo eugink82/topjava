@@ -12,7 +12,7 @@ public class MealDao {
     private final List<Meal> mealsList;
 
     public MealDao(){
-        mealsList=MealsUtil.meals;
+        mealsList=MealsUtil.MEAL_LIST;
     }
 
     public void addMeal(Meal meal){
