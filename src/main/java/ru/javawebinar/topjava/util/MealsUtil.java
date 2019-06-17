@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -24,22 +25,22 @@ public class MealsUtil {
     );
     public static final int DEFAULT_EXCEED_CALORIES=2000;
 
-    public static List<MealTo> getWithExcess(List<Meal> meals, int calories){
+    public static List<MealTo> getWithExcess(Collection<Meal> meals, int calories){
         return getFilteredWithExcess(meals,calories,meal->true);
     }
 
-    public static List<MealTo> getFilteredWithExcess(List<Meal> meals, int calories, Predicate<Meal> filter){
+    public static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, int calories, Predicate<Meal> filter){
         Map<LocalDate,Integer> caloriesPerDay=meals.stream().collect(Collectors.groupingBy(Meal::getDate,Collectors.summingInt(Meal::getCalories)));
         return meals.stream().filter(filter)
                 .map(meal->createMealToExcess(meal,caloriesPerDay.get(meal.getDate())>calories)).collect(Collectors.toList());
     }
 
-    public static List<MealTo> getFilteredWithExcess(List<Meal> meals, LocalTime startTime, LocalTime endTime, int calories){
+    public static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, LocalTime startTime, LocalTime endTime, int calories){
         return getFilteredWithExcess(meals,calories,meal->DateTimeUtil.isBetween(meal.getTime(),startTime,endTime));
     }
 
     private static MealTo createMealToExcess(Meal meal,boolean excess){
-        return new MealTo(meal.getDateTime(),meal.getDescription(),meal.getCalories(),excess);
+        return new MealTo(meal.getId(),meal.getDateTime(),meal.getDescription(),meal.getCalories(),excess);
     }
 
 }
