@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.web.user;
 
+import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.User;
 
+@Controller
 public class ProfileRestController extends AbstractUserController{
     @Override
     public void delete(int id) {

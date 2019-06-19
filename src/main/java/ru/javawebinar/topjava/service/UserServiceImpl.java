@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -10,11 +11,13 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 import java.util.List;
 
 public class UserServiceImpl implements UserService{
+    @Autowired
     private UserRepository repository;
 
+   /*
     public void setRepository(UserRepository repository) {
         this.repository = repository;
-    }
+    } */
 
     @Override
     public User create(User user) {
