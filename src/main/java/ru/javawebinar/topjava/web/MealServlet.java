@@ -29,7 +29,7 @@ public class MealServlet extends HttpServlet {
         String id=request.getParameter("id");
                 Meal meal=new Meal(id.isEmpty() ? null : Integer.valueOf(id), LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),Integer.parseInt(request.getParameter("calories")));
-                repository.save(meal);
+                repository.save(meal, SecurityUtil.authUserId());
                 response.sendRedirect("meals");
     }
 
@@ -40,19 +40,19 @@ public class MealServlet extends HttpServlet {
 
         switch(action==null ? "All" : action){
             case "delete":
-              repository.delete(Integer.valueOf(id));
+              repository.delete(Integer.valueOf(id),SecurityUtil.authUserId());
               response.sendRedirect("meals");
             break;
             case "create":
             case "update":
                 Meal meal="create".equals(action) ? new Meal(LocalDateTime.now(),"",1000) :
-                    repository.get(Integer.parseInt(request.getParameter("id")));
+                    repository.get(Integer.parseInt(request.getParameter("id")),SecurityUtil.authUserId());
                 request.setAttribute("meal",meal);
                 request.getRequestDispatcher("edit.jsp").forward(request,response);
             break;
             case "All":
             default:
-                request.setAttribute("meals", MealsUtil.getWithExcess(repository.getAll(),MealsUtil.DEFAULT_EXCEED_CALORIES));
+                request.setAttribute("meals", MealsUtil.getWithExcess(repository.getAll(SecurityUtil.authUserId()),MealsUtil.DEFAULT_EXCEED_CALORIES));
                 request.getRequestDispatcher("meals.jsp").forward(request,response);
         }
     }
