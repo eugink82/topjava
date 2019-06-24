@@ -9,7 +9,7 @@
             color: green;
         }
         .exceed {
-            color: red;
+            color: blue;
         }
     </style>
     <title>Список еды</title>

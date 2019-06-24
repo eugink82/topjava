@@ -1,21 +1,46 @@
 package ru.javawebinar.topjava.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
+
 
 import java.util.List;
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository repository;
 
-public interface UserService {
-    User create(User user);
+   /*
+    public void setRepository(UserRepository repository) {
+        this.repository = repository;
+    } */
 
-    void delete(int id) throws NotFoundException;
+    public User create(User user) {
+        return repository.save(user);
+    }
 
-    User get(int id) throws NotFoundException;
+    public void delete(int id) throws NotFoundException {
+        checkNotFoundWithId(repository.delete(id),id);
+    }
 
-    User getByEmail(String email) throws NotFoundException;
+    public User get(int id) throws NotFoundException {
+        return checkNotFoundWithId(repository.get(id),id);
+    }
 
-    void update(User user);
+    public User getByEmail(String email) throws NotFoundException {
+        return checkNotFound(repository.getByEmail(email),email);
+    }
 
-    List<User> getAll();
+    public void update(User user) {
+        repository.save(user);
+    }
 
+    public List<User> getAll() {
+        return repository.getAll();
+    }
 }
