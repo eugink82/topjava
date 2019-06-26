@@ -62,7 +62,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return getAllFiltered(userId,meal-> Util.isBetween(meal.getDateTime().toLocalTime(),
-                startDate.toLocalTime(),endDate.toLocalTime()));
+        return getAllFiltered(userId,meal-> Util.isBetween(meal.getDateTime(),
+                startDate,endDate));
     }
 }

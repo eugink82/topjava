@@ -47,6 +47,7 @@
                 <jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealTo"/>
                 <tr class="${meal.excess ? 'exceed' : 'normal'}">
                     <td><%=DateTimeUtil.toString(meal.getDateTime())%></td>
+                   <%-- <td> ${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()} </td> --%>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
                     <td><a href="meals?action=delete&id=${meal.id}">Удалить</a></td>
