@@ -24,6 +24,9 @@
 
         <!--JUnit tests-->
         <junit.version>4.12</junit.version>
+
+        <!--DB-->
+        <postgresql.version>42.2.6</postgresql.version>
     </properties>
 
     <build>
@@ -77,10 +80,18 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!--Spring-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <!--DataBase-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
 
         <dependency>
