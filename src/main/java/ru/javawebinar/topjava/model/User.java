@@ -5,27 +5,28 @@ import ru.javawebinar.topjava.util.MealsUtil;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
+
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_EXCEED_CALORIES;
 
-public class User extends AbstractNamedEntity{
+public class User extends AbstractNamedEntity {
     private String email;
     private String password;
-    private boolean enabled=true;
-    private Date registered=new Date();
+    private boolean enabled = true;
+    private Date registered = new Date();
     private Set<Role> roles;
-    private int calories=DEFAULT_EXCEED_CALORIES;
+    private int calories = DEFAULT_EXCEED_CALORIES;
 
-    public User(Integer id, String name,String email, String password, Role role, Role... roles){
-        this(id,name,email,password,DEFAULT_EXCEED_CALORIES,true, EnumSet.of(role,roles));
+    public User(Integer id, String name, String email, String password, Role role, Role... roles) {
+        this(id, name, email, password, DEFAULT_EXCEED_CALORIES, true, EnumSet.of(role, roles));
     }
 
-    public User(Integer id,String name,String email,String password,int calories,boolean enabled,Set<Role> roles){
-        super(id,name);
-        this.email=email;
-        this.password=password;
-        this.calories=calories;
-        this.enabled=enabled;
-        this.roles=roles;
+    public User(Integer id, String name, String email, String password, int calories, boolean enabled, Set<Role> roles) {
+        super(id, name);
+        this.email = email;
+        this.password = password;
+        this.calories = calories;
+        this.enabled = enabled;
+        this.roles = roles;
     }
 
     public String getEmail() {
@@ -58,6 +59,14 @@ public class User extends AbstractNamedEntity{
 
     public String getPassword() {
         return password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public int getCalories() {
+        return calories;
     }
 
     @Override
