@@ -1,11 +1,9 @@
 package ru.javawebinar.topjava.model;
 
+import org.springframework.util.CollectionUtils;
 import ru.javawebinar.topjava.util.MealsUtil;
 
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_EXCEED_CALORIES;
 
@@ -14,27 +12,28 @@ public class User extends AbstractNamedEntity {
     private String password;
     private boolean enabled = true;
     private Date registered = new Date();
-    private Set<Role> roles;
+    private Collection<Role> roles;
     private int calories = DEFAULT_EXCEED_CALORIES;
 
     public User(){
     }
 
     public User(User user){
-        this(user.getId(),user.getName(),user.getEmail(),user.getPassword(),user.getCalories(),user.isEnabled(),user.getRoles());
+        this(user.getId(),user.getName(),user.getEmail(),user.getPassword(),user.getCalories(),user.isEnabled(),user.getRegistered(),user.getRoles());
     }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, DEFAULT_EXCEED_CALORIES, true, EnumSet.of(role, roles));
+        this(id, name, email, password, DEFAULT_EXCEED_CALORIES, true,new Date(), EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String name, String email, String password, int calories, boolean enabled, Set<Role> roles) {
+    public User(Integer id, String name, String email, String password, int calories, boolean enabled, Date registered,Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
         this.calories = calories;
         this.enabled = enabled;
-        this.roles = roles;
+        this.registered=registered;
+        setRoles(roles);
     }
 
     public String getEmail() {
@@ -61,7 +60,7 @@ public class User extends AbstractNamedEntity {
         this.enabled = enabled;
     }
 
-    public Set<Role> getRoles() {
+    public Collection<Role> getRoles() {
         return roles;
     }
 
@@ -77,6 +76,15 @@ public class User extends AbstractNamedEntity {
         return calories;
     }
 
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    }
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -89,18 +97,5 @@ public class User extends AbstractNamedEntity {
                 ", calories=" + calories +
                 ", name='" + name + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractBaseEntity user = (AbstractBaseEntity) o;
-        return id!=null && id.equals(user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id!=null ? id : 0;
     }
 }

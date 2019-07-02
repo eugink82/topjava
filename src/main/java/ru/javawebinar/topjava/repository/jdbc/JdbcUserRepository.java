@@ -6,11 +6,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import java.util.List;
 
+@Repository
 public class JdbcUserRepository implements UserRepository {
     private static BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
 
@@ -37,7 +39,7 @@ public class JdbcUserRepository implements UserRepository {
                 .addValue("password", user.getPassword())
                 .addValue("registered", user.getRegistered())
                 .addValue("enabled", user.isEnabled())
-                .addValue("calories", user.getCalories());
+                .addValue("calories_per_day", user.getCalories());
         if (user.isNew()) {
             Number newId = insertUser.executeAndReturnKey(map);
             user.setId(newId.intValue());
@@ -45,7 +47,7 @@ public class JdbcUserRepository implements UserRepository {
                 "registered=:registered,enabled=:enabled,calories_per_day=:calories WHERE id=:id", map) == 0) {
             return null;
         }
-        return null;
+        return user;
     }
 
     @Override

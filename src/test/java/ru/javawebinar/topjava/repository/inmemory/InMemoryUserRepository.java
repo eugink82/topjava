@@ -28,23 +28,6 @@ public class InMemoryUserRepository extends InMemoryBaseRepository<User> impleme
     }
 
 
-//    @Override
-//    public User save(User user) {
-//        log.debug("save{}", user);
-//        return super.save(user);
-//    }
-//
-//    @Override
-//    public boolean delete(int id) {
-//        log.info("delete{}", id);
-//        return super.delete(id);
-//    }
-//
-//    @Override
-//    public User get(int id) {
-//        log.info("get{}", id);
-//        return super.get(id);
-//    }
 
     @Override
     public User getByEmail(String email) {
