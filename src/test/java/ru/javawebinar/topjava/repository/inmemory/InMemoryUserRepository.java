@@ -19,26 +19,32 @@ import static ru.javawebinar.topjava.UserTestData.ADMIN;
 public class InMemoryUserRepository extends InMemoryBaseRepository<User> implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepository.class);
     //public static final int USER_ID=1;
-    // public static final int ADMIN_ID=2;
+    //public static final int ADMIN_ID=2;
 
-
-    @Override
-    public User save(User user) {
-        log.debug("save{}", user);
-        return super.save(user);
+    public void init() {
+        entranceMap.clear();
+        entranceMap.put(UserTestData.USER_ID, USER);
+        entranceMap.put(UserTestData.ADMIN_ID, ADMIN);
     }
 
-    @Override
-    public boolean delete(int id) {
-        log.info("delete{}", id);
-        return super.delete(id);
-    }
 
-    @Override
-    public User get(int id) {
-        log.info("get{}", id);
-        return super.get(id);
-    }
+//    @Override
+//    public User save(User user) {
+//        log.debug("save{}", user);
+//        return super.save(user);
+//    }
+//
+//    @Override
+//    public boolean delete(int id) {
+//        log.info("delete{}", id);
+//        return super.delete(id);
+//    }
+//
+//    @Override
+//    public User get(int id) {
+//        log.info("get{}", id);
+//        return super.get(id);
+//    }
 
     @Override
     public User getByEmail(String email) {
@@ -54,9 +60,4 @@ public class InMemoryUserRepository extends InMemoryBaseRepository<User> impleme
         return getCollection().stream().sorted(Comparator.comparing(User::getName).thenComparing(User::getEmail)).collect(Collectors.toList());
     }
 
-    public void init() {
-        entranceMap.clear();
-        entranceMap.put(UserTestData.USER_ID, USER);
-        entranceMap.put(UserTestData.ADMIN_ID, ADMIN);
-    }
 }

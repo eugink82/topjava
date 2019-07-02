@@ -4,6 +4,7 @@ import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_EXCEED_CALORIES;
@@ -15,6 +16,13 @@ public class User extends AbstractNamedEntity {
     private Date registered = new Date();
     private Set<Role> roles;
     private int calories = DEFAULT_EXCEED_CALORIES;
+
+    public User(){
+    }
+
+    public User(User user){
+        this(user.getId(),user.getName(),user.getEmail(),user.getPassword(),user.getCalories(),user.isEnabled(),user.getRoles());
+    }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
         this(id, name, email, password, DEFAULT_EXCEED_CALORIES, true, EnumSet.of(role, roles));
@@ -81,5 +89,18 @@ public class User extends AbstractNamedEntity {
                 ", calories=" + calories +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractBaseEntity user = (AbstractBaseEntity) o;
+        return id!=null && id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id!=null ? id : 0;
     }
 }

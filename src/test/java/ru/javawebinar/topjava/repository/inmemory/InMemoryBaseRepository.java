@@ -5,15 +5,18 @@ import ru.javawebinar.topjava.model.AbstractBaseEntity;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class InMemoryBaseRepository<T extends AbstractBaseEntity> {
-    Map<Integer,T> entranceMap=new ConcurrentHashMap<>();
+
     private AtomicInteger counter=new AtomicInteger(0);
+    Map<Integer,T> entranceMap=new ConcurrentHashMap<>();
 
     public T save(T entrance){
+        Objects.requireNonNull(entrance, "Entry must not be null");
         if(entrance.isNew()){
            entrance.setId(counter.incrementAndGet());
            entranceMap.put(entrance.getId(),entrance);
