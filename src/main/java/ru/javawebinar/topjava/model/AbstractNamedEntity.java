@@ -3,10 +3,10 @@ package ru.javawebinar.topjava.model;
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     protected String name;
 
-    public AbstractNamedEntity(){
+    public AbstractNamedEntity() {
     }
 
-    public AbstractNamedEntity(Integer id,String name) {
+    public AbstractNamedEntity(Integer id, String name) {
         super(id);
         this.name = name;
     }
@@ -21,6 +21,6 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     @Override
     public String toString() {
-        return super.toString()+'('+name+')';
+        return super.toString() + '(' + name + ')';
     }
 }

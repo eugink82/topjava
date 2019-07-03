@@ -5,27 +5,27 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 public class ValidationUtil {
     public static <T> T checkNotFoundWithId(T object, int id) {
-        return checkNotFound(object, "id=" + id);
+        return checkNotFound(object, Integer.toString(id));
     }
 
     public static void checkNotFoundWithId(boolean found, int id) {
-        checkNotFound(found, "id=" + id);
+        checkNotFound(found, Integer.toString(id));
     }
 
-    public static <T> T checkNotFound(T object, String msg){
-        checkNotFound(object!=null,msg);
+    public static <T> T checkNotFound(T object, String msg) {
+        checkNotFound(object != null, msg);
         return object;
     }
 
-    public static void checkNotFound(boolean found, String msg){
-        if(!found){
-            throw new NotFoundException("Не найдена сущность с id="+msg);
+    public static void checkNotFound(boolean found, String msg) {
+        if (!found) {
+            throw new NotFoundException("Не найдена сущность с id=" + msg);
         }
     }
 
-    public static void checkNew(AbstractBaseEntity entity){
-        if(!entity.isNew()){
-            throw new IllegalArgumentException(entity+"must be new(id=null");
+    public static void checkNew(AbstractBaseEntity entity) {
+        if (!entity.isNew()) {
+            throw new IllegalArgumentException(entity + "must be new(id=null");
         }
     }
 
