@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.repository.jdbc;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -32,14 +33,15 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-        MapSqlParameterSource map = new MapSqlParameterSource()
-                .addValue("id", user.getId())
-                .addValue("name", user.getName())
-                .addValue("email", user.getEmail())
-                .addValue("password", user.getPassword())
-                .addValue("registered", user.getRegistered())
-                .addValue("enabled", user.isEnabled())
-                .addValue("calories_per_day", user.getCaloriesPerDay());
+//        MapSqlParameterSource map = new MapSqlParameterSource()
+//                .addValue("id", user.getId())
+//                .addValue("name", user.getName())
+//                .addValue("email", user.getEmail())
+//                .addValue("password", user.getPassword())
+//                .addValue("registered", user.getRegistered())
+//                .addValue("enabled", user.isEnabled())
+//                .addValue("calories_per_day", user.getCaloriesPerDay());
+        BeanPropertySqlParameterSource map=new BeanPropertySqlParameterSource(user);
         if (user.isNew()) {
             Number newId = insertUser.executeAndReturnKey(map);
             user.setId(newId.intValue());
