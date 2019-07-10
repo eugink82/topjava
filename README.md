@@ -1,4 +1,5 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8479575f8712475198fb20fa38bb64a6)](https://www.codacy.com/app/eugink82/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eugink82/topjava&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/eugink82/topjava.svg?branch=master)](https://travis-ci.org/eugink82/topjava)
 
 Java Enterprise Online Project 
 ===============================
