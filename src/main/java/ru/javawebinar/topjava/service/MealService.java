@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.DateTimeUtil;
@@ -22,6 +23,7 @@ public class MealService {
     }
 
     public Meal create(Meal meal, int userId){
+        Assert.notNull(meal,"meal must not be null");
         return repository.save(meal,userId);
     }
 
@@ -34,6 +36,7 @@ public class MealService {
     }
 
     public void update(Meal meal,int userId){
+        Assert.notNull(meal,"meal must not be null");
         ValidationUtil.checkNotFoundWithId(repository.save(meal,userId),meal.getId());
     }
 
@@ -46,6 +49,8 @@ public class MealService {
     }
 
     private List<Meal> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId){
+        Assert.notNull(startDateTime,"startDateTime must not be null");
+        Assert.notNull(endDateTime,"endDateTime must not be null");
         return repository.getBetween(startDateTime,endDateTime,userId);
     }
  }

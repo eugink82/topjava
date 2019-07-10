@@ -9,6 +9,7 @@ import ru.javawebinar.topjava.repository.UserRepository;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.UserTestData.USER;
@@ -29,7 +30,7 @@ public class InMemoryUserRepository extends InMemoryBaseRepository<User> impleme
 
     @Override
     public User getByEmail(String email) {
-        log.info("getByEmail{}", email);
+        Objects.requireNonNull(email,"email must be not null");
         return getCollection().stream()
                 .filter(u -> email.equals(u.getEmail()))
                 .findFirst().orElse(null);
@@ -37,7 +38,6 @@ public class InMemoryUserRepository extends InMemoryBaseRepository<User> impleme
 
     @Override
     public List<User> getAll() {
-        log.debug("getAll{}");
         return getCollection().stream().sorted(Comparator.comparing(User::getName).thenComparing(User::getEmail)).collect(Collectors.toList());
     }
 

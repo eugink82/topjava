@@ -14,6 +14,9 @@ public class DateTimeUtil {
     private static final LocalDate MIN_DATE=LocalDate.of(1900,1,1);
     private static final LocalDate MAX_DATE=LocalDate.of(2100,1,1);
 
+    private DateTimeUtil() {
+    }
+
     public static LocalDateTime assignStartDateTime(LocalDate lDate){
         return assignDateTime(lDate,MIN_DATE,LocalTime.MIN);
     }

@@ -19,6 +19,9 @@ public class MealsUtil {
 
     public static final int DEFAULT_EXCEED_CALORIES=2000;
 
+    private MealsUtil() {
+    }
+
     public static List<MealTo> getWithExcess(Collection<Meal> meals, int calories){
         return getFilteredWithExcess(meals,calories,meal->true);
     }

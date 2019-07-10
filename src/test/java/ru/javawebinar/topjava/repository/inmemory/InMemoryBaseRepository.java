@@ -16,7 +16,7 @@ public class InMemoryBaseRepository<T extends AbstractBaseEntity> {
     Map<Integer,T> entranceMap=new ConcurrentHashMap<>();
 
     public T save(T entrance){
-        Objects.requireNonNull(entrance, "Entry must not be null");
+        Objects.requireNonNull(entrance, "entrance must not be null");
         if(entrance.isNew()){
            entrance.setId(counter.incrementAndGet());
            entranceMap.put(entrance.getId(),entrance);

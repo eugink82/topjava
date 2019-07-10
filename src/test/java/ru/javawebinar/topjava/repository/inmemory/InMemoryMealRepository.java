@@ -31,6 +31,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
+        Objects.requireNonNull(meal,"meal must not be null");
         InMemoryBaseRepository<Meal> meals = usersMealsMap.computeIfAbsent(userId, u -> new InMemoryBaseRepository<Meal>());
         return meals.save(meal);
     }
