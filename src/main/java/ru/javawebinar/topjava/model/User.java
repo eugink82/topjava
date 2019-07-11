@@ -1,17 +1,44 @@
 package ru.javawebinar.topjava.model;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_EXCEED_CALORIES;
 
+@Entity
+@Table(name="users", uniqueConstraints = {@UniqueConstraint(name="users_unique_email_idx", columnNames = "email")})
 public class User extends AbstractNamedEntity {
+    @Column(name="email",unique = true, nullable = false)
+    @Email
+    @NotBlank
+    @Size(max=100)
     private String email;
+
+    @Column(name="password",nullable=false)
+    @NotBlank
+    @Size(min=5,max=30)
     private String password;
+
+    @Column(name="enabled",nullable = false,columnDefinition = "bool default true")
     private boolean enabled = true;
+
+    @Column(name="registered", nullable=false,columnDefinition = "timestamp default now()")
     private Date registered = new Date();
-    private Collection<Role> roles;
+
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name="user_roles",joinColumns = @JoinColumn(name="user_id"))
+    @Column(name="role")
+    @ElementCollection(fetch=FetchType.EAGER)
+    private Set<Role> roles;
+
+    @Column(name="calories_per_day",nullable = false, columnDefinition ="int default 2000")
+    @Range(min=10, max=10000)
     private int calories = DEFAULT_EXCEED_CALORIES;
 
     public User() {
