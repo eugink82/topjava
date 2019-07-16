@@ -2,6 +2,8 @@ package ru.javawebinar.topjava.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,16 +32,20 @@ import static ru.javawebinar.topjava.MealTestData.*;
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
-
+    private static final Logger LOG = LoggerFactory.getLogger(MealServiceTest.class);
     @Autowired
     private MealService service;
 
     @Test
     public void create() {
+        long time1 = System.currentTimeMillis();
         Meal newMeal = createdMeal();
         Meal createdMeal = service.create(newMeal, USER_ID);
         newMeal.setId(createdMeal.getId());
         assertMatch(service.getAll(USER_ID), Arrays.asList(newMeal, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1));
+        long time2 = System.currentTimeMillis();
+        long time3 = time2 - time1;
+        LOG.info("Время выполнения теста create - { }", time3);
     }
 
     @Test
@@ -48,14 +54,14 @@ public class MealServiceTest {
         assertMatch(service.getAll(USER_ID), MEAL6, MEAL5, MEAL4, MEAL3, MEAL2);
     }
 
-    @Test(expected= NotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void deleteNotExists() {
-        service.delete(1,USER_ID);
+        service.delete(1, USER_ID);
     }
 
-    @Test(expected= NotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void deleteNotOwn() {
-        service.delete(MEAL_ID,ADMIN_ID);
+        service.delete(MEAL_ID, ADMIN_ID);
     }
 
     @Test
@@ -64,12 +70,12 @@ public class MealServiceTest {
         assertMatch(meal, MEAL1);
     }
 
-    @Test(expected= NotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void getNotExists() {
         Meal meal = service.get(1, USER_ID);
     }
 
-    @Test(expected= NotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void getNotOwn() {
         Meal meal = service.get(MEAL_ID, ADMIN_ID);
     }
@@ -81,7 +87,7 @@ public class MealServiceTest {
         assertMatch(service.get(MEAL_ID, USER_ID), meal);
     }
 
-    @Test(expected= NotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void updateNotExists() {
         service.update(MEAL1, ADMIN_ID);
     }
@@ -89,13 +95,13 @@ public class MealServiceTest {
     @Test
     public void getAll() {
         List<Meal> meals = service.getAll(USER_ID);
-        assertMatch(meals,MEALS);
+        assertMatch(meals, MEALS);
 
     }
 
     @Test
     public void getBetweenDates() {
-        List<Meal> meals =service.getBetweenDates(LocalDate.of(2015,Month.MAY,30),LocalDate.of(2015,Month.MAY,30),USER_ID);
-        assertMatch(meals,MEAL3,MEAL2,MEAL1);
+        List<Meal> meals = service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID);
+        assertMatch(meals, MEAL3, MEAL2, MEAL1);
     }
 }
