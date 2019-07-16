@@ -19,7 +19,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name="meals", uniqueConstraints={@UniqueConstraint(name="meals_unique_user_datetime_idx", columnNames = {"user_id","date_time"})})
 public class Meal extends AbstractBaseEntity {
-    public static final String DELETE="User.delete";
+    public static final String DELETE="Meal.delete";
     public static final String GET_ALL_SORTED="User.getAll";
     public static final String GET_BETWEEN="User.getBetween";
     @Column(name="date_time",nullable = false)
