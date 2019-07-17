@@ -13,16 +13,12 @@ import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 
 
 public abstract class AbstractUserController {
-    private final Logger LOG= LoggerFactory.getLogger(getClass());
+    protected final Logger LOG= LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private UserService service;
+    protected UserService service;
 
-    public User create(User user){
-        LOG.info("create{}",user);
-        checkNew(user);
-        return service.create(user);
-    }
+
 
     public void delete(int id){
         LOG.info("delete{}",id);
@@ -34,10 +30,7 @@ public abstract class AbstractUserController {
         return service.get(id);
     }
 
-    public User getByEmail(String email){
-        LOG.info("getByEmail{}",email);
-        return service.getByEmail(email);
-    }
+
 
     public void update(User user, int id){
         LOG.info("update{}",user);
@@ -45,7 +38,5 @@ public abstract class AbstractUserController {
         service.update(user);
     }
 
-    public List<User> getAll(){
-        return service.getAll();
-    }
+
 }
