@@ -38,7 +38,7 @@ import static ru.javawebinar.topjava.MealTestData.*;
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
-    private static final Logger LOG = LoggerFactory.getLogger(MealServiceTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger("result");
     private static StringBuilder timeWorkTests=new StringBuilder();
 
     @Rule
@@ -48,8 +48,11 @@ public class MealServiceTest {
     public Stopwatch stopwatch=new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            String timeTest="Тест: "+description.getMethodName()+", время работы: "+ TimeUnit.NANOSECONDS.toMillis(nanos)+"ms";
-            timeWorkTests.append(timeTest).append(System.lineSeparator());
+            String result = String.format("\n%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            timeWorkTests.append(result);
+            LOG.info(result + " ms\n");
+           // String timeTest="Тест: "+description.getMethodName()+", время работы: "+ TimeUnit.NANOSECONDS.toMillis(nanos)+"ms";
+           // timeWorkTests.append(System.lineSeparator()).append(timeTest);
         }
     };
 
@@ -58,7 +61,12 @@ public class MealServiceTest {
 
     @AfterClass
     public static void fullResults(){
-        LOG.info(timeWorkTests+"");
+        LOG.info("\n----------------------------" +
+                 "\nTest            Duration, ms" +
+                 "\n----------------------------" +
+                 timeWorkTests+
+                 "\n----------------------------");
+        //LOG.info(timeWorkTests+"");
     }
 
     @Test
