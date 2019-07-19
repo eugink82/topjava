@@ -12,7 +12,7 @@
     <appender name="result" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>%magenta (%msg%n)</pattern>
+            <pattern>%magenta(%msg%n)</pattern>
         </encoder>
     </appender>
 
@@ -20,8 +20,8 @@
         <appender-ref ref="result"/>
     </logger>
 
-    <logger name="org.postgresql" level="debug"/>
-    <logger name="org.springframework.jdbc" level="debug"/>
+    <!--<logger name="org.postgresql" level="debug"/>
+    <logger name="org.springframework.jdbc" level="debug"/>-->
     <logger name="ru.javawebinar.topjava" level="debug"/>
 
     <root level="INFO">
