@@ -11,11 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.MealTestData;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -37,6 +39,7 @@ import static ru.javawebinar.topjava.MealTestData.*;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@ActiveProfiles(Profiles.ACTIVE_DB)
 public class MealServiceTest {
     private static final Logger LOG = LoggerFactory.getLogger("result");
     private static StringBuilder timeWorkTests=new StringBuilder();
@@ -53,6 +56,13 @@ public class MealServiceTest {
             LOG.info(result + " ms\n");
            // String timeTest="Тест: "+description.getMethodName()+", время работы: "+ TimeUnit.NANOSECONDS.toMillis(nanos)+"ms";
            // timeWorkTests.append(System.lineSeparator()).append(timeTest);
+        }
+
+        @Override
+        protected void failed(long nanos, Throwable e, Description description) {
+            String result = String.format("\n%-25s %-25s %7d", description.getMethodName(),e.getMessage(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            timeWorkTests.append(result);
+            LOG.info(result + " ms\n");
         }
     };
 
