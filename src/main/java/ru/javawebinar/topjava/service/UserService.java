@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.repository.datajpa.CrudUserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
@@ -18,6 +19,8 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 public class UserService {
 
     private final UserRepository repository;
+
+    private CrudUserRepository crudUserRepository;
 
     @Autowired
     public UserService(UserRepository repository) {
@@ -53,5 +56,9 @@ public class UserService {
     public void update(User user) throws NotFoundException {
         Assert.notNull(user, "user must not be null");
         checkNotFoundWithId(repository.save(user), user.getId());
+    }
+
+    public User getUserWithMeals(int id){
+        return checkNotFoundWithId(repository.getUserWithMeals(id),id);
     }
 }

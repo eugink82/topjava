@@ -13,23 +13,23 @@
 
     <!-- Change DB by comment/uncomment property-placeholder -->
 
-       <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
-    <!--   <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>-->
+        <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+    <!--    <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>-->
 
 
 
-       <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
-           <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
-           <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
-       </jdbc:initialize-database>
+        <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+            <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
+            <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
+        </jdbc:initialize-database>
 
 
-       <tx:annotation-driven/>
+        <tx:annotation-driven/>
 
-       <beans profile="hsqldb">
-           <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+        <beans profile="hsqldb">
+            <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
 
-           <!--no pooling-->
+            <!--no pooling-->
         <bean id="dataSource"
               class="org.springframework.jdbc.datasource.DriverManagerDataSource"
               p:driverClassName="org.hsqldb.jdbcDriver"
