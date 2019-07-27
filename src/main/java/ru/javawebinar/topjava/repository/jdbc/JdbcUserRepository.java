@@ -46,7 +46,7 @@ public class JdbcUserRepository implements UserRepository {
             Number newId = insertUser.executeAndReturnKey(map);
             user.setId(newId.intValue());
         } else if (namedParameterJdbcTemplate.update("UPDATE users SET name=:name,email=:email,password=:password," +
-                "registered=:registered,enabled=:enabled,calories_per_day=:calories_per_day WHERE id=:id", map) == 0) {
+                "registered=:registered,enabled=:enabled,calories_per_day=:caloriesPerDay WHERE id=:id", map) == 0) {
             return null;
         }
         return user;

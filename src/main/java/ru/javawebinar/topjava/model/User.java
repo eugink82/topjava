@@ -49,7 +49,7 @@ public class User extends AbstractNamedEntity {
 
     @Column(name="calories_per_day",nullable = false, columnDefinition ="int default 2000")
     @Range(min=10, max=10000)
-    private int calories = DEFAULT_EXCEED_CALORIES;
+    private int caloriesPerDay = DEFAULT_EXCEED_CALORIES;
 
     public User() {
     }
@@ -62,11 +62,11 @@ public class User extends AbstractNamedEntity {
         this(id, name, email, password, DEFAULT_EXCEED_CALORIES, true, new Date(), EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String name, String email, String password, int calories, boolean enabled, Date registered, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password, int caloriesPerDay, boolean enabled, Date registered, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
-        this.calories = calories;
+        this.caloriesPerDay = caloriesPerDay;
         this.enabled = enabled;
         this.registered = registered;
         setRoles(roles);
@@ -109,11 +109,11 @@ public class User extends AbstractNamedEntity {
     }
 
     public int getCaloriesPerDay() {
-        return calories;
+        return caloriesPerDay;
     }
 
-    public void setCaloriesPerDay(int calories) {
-        this.calories = calories;
+    public void setCaloriesPerDay(int caloriesPerDay) {
+        this.caloriesPerDay = caloriesPerDay;
     }
 
     private void setRoles(Collection<Role> roles) {
@@ -130,7 +130,7 @@ public class User extends AbstractNamedEntity {
                 ", enabled=" + enabled +
                 ", registered=" + registered +
                 ", roles=" + roles +
-                ", calories=" + calories +
+                ", caloriesPerDay=" + caloriesPerDay +
                 ", name='" + name + '\'' +
                 '}';
     }
