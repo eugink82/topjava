@@ -10,20 +10,21 @@ import ru.javawebinar.topjava.model.Meal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Transactional(readOnly=true)
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
     @Modifying
     @Transactional
-    @Query("SELECT m FROM Meals m WHERE m.id=:id AND m.user.id=userId")
+    @Query("DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
     int delete(@Param("id") int id, @Param("userId") int userId);
 
     @Override
     @Transactional
     Meal save(Meal meal);
 
-    @Query("SELECT m FROM Meals m WHERE m.user.id=:userId ORDER BY m.dateTime desc")
+    @Query("SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime desc")
     List<Meal> getAll(@Param("userId") int userId);
 
-    @Query("SELECT m FROM Meals m WHERE m.user.id=:userId AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY dateTime desc")
+    @Query("SELECT m FROM Meal m WHERE m.user.id=:userId AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY dateTime desc")
     List<Meal> getBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("userId") int userId);
 }
