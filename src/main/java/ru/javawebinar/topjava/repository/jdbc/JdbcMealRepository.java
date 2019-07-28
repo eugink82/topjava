@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public abstract class JdbcMealRepository<T> implements MealRepository {
+public class JdbcMealRepository implements MealRepository {
     private static final BeanPropertyRowMapper<Meal> ROW_MAPPER=BeanPropertyRowMapper.newInstance(Meal.class);
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -30,6 +30,7 @@ public abstract class JdbcMealRepository<T> implements MealRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
+   /*
     protected abstract T toDbDateTime(LocalDateTime ldt);
 
     @Repository
@@ -55,13 +56,14 @@ public abstract class JdbcMealRepository<T> implements MealRepository {
             return Timestamp.valueOf(ldt);
         }
     }
+    */
 
     @Override
     public Meal save(Meal meal, int userId) {
         MapSqlParameterSource map=new MapSqlParameterSource()
                 .addValue("id",meal.getId())
                 .addValue("user_id",userId)
-                .addValue("date_time",toDbDateTime(meal.getDateTime()))
+                .addValue("date_time",meal.getDateTime())
                 .addValue("description",meal.getDescription())
                 .addValue("calories",meal.getCalories());
         if(meal.isNew()){
@@ -95,6 +97,6 @@ public abstract class JdbcMealRepository<T> implements MealRepository {
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? and date_time BETWEEN ? AND ? " +
-                "ORDER BY date_time desc",ROW_MAPPER,userId,toDbDateTime(startDate),toDbDateTime(endDate));
+                "ORDER BY date_time desc",ROW_MAPPER,userId,startDate,endDate);
     }
 }
