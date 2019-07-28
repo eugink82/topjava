@@ -18,7 +18,7 @@ public class TimingRules {
 
         @Override
         protected void finished(long nanos, Description description) {
-            String result = String.format("\n%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            String result = String.format("\n%-25s %7d", description.getDisplayName(), TimeUnit.NANOSECONDS.toMillis(nanos));
             timeWorkTests.append(result);
             LOG.info(result + " ms\n");
             // String timeTest="Тест: "+description.getMethodName()+", время работы: "+ TimeUnit.NANOSECONDS.toMillis(nanos)+"ms";
