@@ -53,4 +53,8 @@ public class UserService {
     public List<User> getAll() {
         return repository.getAll();
     }
+
+    public User userWithMeals(int id){
+       return checkNotFoundWithId(repository.userWithMeals(id),id);
+    }
 }

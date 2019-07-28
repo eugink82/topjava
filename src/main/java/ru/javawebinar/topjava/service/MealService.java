@@ -53,4 +53,8 @@ public class MealService {
         Assert.notNull(endDateTime,"endDateTime must not be null");
         return repository.getBetween(startDateTime,endDateTime,userId);
     }
+
+    public Meal mealWithUser(int id, int userId){
+        return ValidationUtil.checkNotFoundWithId(repository.mealWithUser(id,userId),id);
+    }
  }
