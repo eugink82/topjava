@@ -7,7 +7,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+    <!--  <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/> -->
    <!-- <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/> -->
 
 
@@ -50,6 +50,7 @@
     </beans>
 
     <beans profile="postgres">
+        <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
         <bean class="org.springframework.beans.factory.config.MethodInvokingBean">
             <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>
         </bean>
