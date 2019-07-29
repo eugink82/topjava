@@ -41,4 +41,13 @@ public class ValidationUtil {
             throw new IllegalArgumentException(entity + " must be with id=" + id);
         }
     }
+
+    public static Throwable getRootCause(Throwable t){
+        Throwable cause=null;
+        Throwable result=t;
+        while((cause=result.getCause())!=null && (cause!=result)){
+            result=cause;
+        }
+        return result;
+    }
 }

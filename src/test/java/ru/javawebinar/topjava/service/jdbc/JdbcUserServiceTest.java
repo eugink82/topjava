@@ -1,9 +1,10 @@
-package ru.javawebinar.topjava.service;
+package ru.javawebinar.topjava.service.jdbc;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
+import ru.javawebinar.topjava.service.AbstractUserServiceTest;
 
 @ActiveProfiles(Profiles.JDBC)
-public class JdbcMealServiceTest extends AbstractMealServiceTest {
+public class JdbcUserServiceTest extends AbstractUserServiceTest {
 }

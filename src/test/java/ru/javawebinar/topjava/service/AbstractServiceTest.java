@@ -1,16 +1,13 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.AfterClass;
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.ExternalResource;
 import org.junit.rules.Stopwatch;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -18,8 +15,8 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.ActiveDBProfileResolver;
 import ru.javawebinar.topjava.TimingRules;
+import static ru.javawebinar.topjava.util.ValidationUtil.*;
 
-import java.util.concurrent.TimeUnit;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -37,5 +34,15 @@ public abstract class AbstractServiceTest {
 
     @Rule
     public ExpectedException thrown=ExpectedException.none();
+
+    public <T extends Throwable> void validationRootCause(Runnable runnable,Class<T> exceptionClass){
+        try{
+            runnable.run();
+            Assert.fail("Expected "+exceptionClass.getName());
+        }
+        catch(Exception e){
+            Assert.assertThat(getRootCause(e), CoreMatchers.instanceOf(exceptionClass));
+        }
+    }
 
 }
