@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.AbstractUserServiceTest;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import static ru.javawebinar.topjava.MealTestData.MEALS;
 import static ru.javawebinar.topjava.UserTestData.*;
@@ -22,6 +23,7 @@ public class DataJpaUserServiceTest extends AbstractUserServiceTest {
 
     @Test
     public void testUserWithoutMeal(){
+        thrown.expect(NotFoundException.class);
         service.userWithMeals(1);
     }
 }
