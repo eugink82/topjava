@@ -1,10 +1,12 @@
 package ru.javawebinar.topjava.model;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+import org.hibernate.annotations.Cache;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -12,6 +14,7 @@ import java.util.*;
 
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_EXCEED_CALORIES;
 
+@Cache(usage= CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
        @NamedQuery(name=User.DELETE,query="DELETE FROM User u WHERE u.id=:id"),
        @NamedQuery(name=User.BY_EMAIL,query="SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
@@ -47,6 +50,7 @@ public class User extends AbstractNamedEntity {
     @Column(name="role")
     @ElementCollection(fetch=FetchType.EAGER)
     @BatchSize(size=200)
+    @Cache(usage= CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Role> roles;
 
     @Column(name="calories_per_day",nullable = false, columnDefinition ="int default 2000")
