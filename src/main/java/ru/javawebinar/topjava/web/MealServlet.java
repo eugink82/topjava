@@ -4,6 +4,8 @@ package ru.javawebinar.topjava.web;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
@@ -22,22 +24,23 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseToLocalDate;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseToLocalTime;
 
 public class MealServlet extends HttpServlet {
-    private ConfigurableApplicationContext springContext;
+   // private ConfigurableApplicationContext springContext;
     private MealRestController mealController;
 
     @Override
     public void init() throws ServletException {
-        springContext=new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml","spring/spring-db.xml"}, false);
-        springContext.getEnvironment().setActiveProfiles(Profiles.POSTGRES_DB,Profiles.DATAJPA);
-        springContext.refresh();
+//        springContext=new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml","spring/spring-db.xml"}, false);
+//        springContext.getEnvironment().setActiveProfiles(Profiles.POSTGRES_DB,Profiles.DATAJPA);
+//        springContext.refresh();
+        WebApplicationContext springContext= WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         mealController=springContext.getBean(MealRestController.class);
     }
 
-    @Override
-    public void destroy() {
-        springContext.close();
-        super.destroy();
-    }
+//    @Override
+//    public void destroy() {
+//        springContext.close();
+//        super.destroy();
+//    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
