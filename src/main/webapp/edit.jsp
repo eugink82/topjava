@@ -2,13 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Title</title>
 </head>
 <body>
 <section>
-   <h2><a href="index.html">Home</a></h2>
-   <hr>
+    <h2><a href="index.jsp">Home</a></h2>
+    <hr>
     <h3>${param.action=='create' ? 'create' : 'update' }</h3>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
     <form method="post" action="meals">
