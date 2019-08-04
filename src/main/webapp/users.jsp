@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="messages/app"/>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -23,7 +23,7 @@
                 <td><a href="mailto:${user.email}">${user.email}</a></td>
                 <td>${user.roles}</td>
                 <td>${user.enabled}</td>
-                <td>${user.registered}</td>
+                <td><fmt:formatDate value="${user.registered}" pattern="dd-MM-yyyy"/></td>
            </tr>
         </c:forEach>
     </table>
