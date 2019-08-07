@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../../resources/css/style.css">
     <title>Список еды</title>
 </head>
 <body>
