@@ -18,6 +18,8 @@
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
     </jdbc:initialize-database>
 
+
+
     <!-- Choose profile from (hsqldb/ postgres) and (jdbc/ datajpa/ jpa) -->
 
     <beans profile="hsqldb">
@@ -58,7 +60,11 @@
     </beans>
 
     <beans profile="jdbc">
-        <context:component-scan base-package="ru.javawebinar.**.repository.jdbc"/>
+         <context:component-scan base-package="ru.javawebinar.**.repository.jdbc"/>
+         <tx:annotation-driven proxy-target-class="true" transaction-manager="jdbcTxManager" />
+        <bean id="jdbcTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+            <property name="dataSource" ref="dataSource"/>
+        </bean>
         <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
             <constructor-arg ref="dataSource"/>
         </bean>
