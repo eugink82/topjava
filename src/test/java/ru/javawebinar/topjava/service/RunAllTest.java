@@ -8,6 +8,8 @@ import ru.javawebinar.topjava.service.jdbc.JdbcMealServiceTest;
 import ru.javawebinar.topjava.service.jdbc.JdbcUserServiceTest;
 import ru.javawebinar.topjava.service.jpa.JpaMealServiceTest;
 import ru.javawebinar.topjava.service.jpa.JpaUserServiceTest;
+import ru.javawebinar.topjava.web.user.InMemoryAdminRestControllerSpringTest;
+import ru.javawebinar.topjava.web.user.InMemoryAdminRestControllerTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses(
@@ -18,6 +20,8 @@ import ru.javawebinar.topjava.service.jpa.JpaUserServiceTest;
           JpaUserServiceTest.class,
           DataJpaMealServiceTest.class,
           DataJpaUserServiceTest.class,
+          InMemoryAdminRestControllerSpringTest.class,
+          InMemoryAdminRestControllerTest.class
         }
 )
 public class RunAllTest {

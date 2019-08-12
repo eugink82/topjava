@@ -31,11 +31,11 @@ public class RootController {
         return "users";
     }
 
-//    @GetMapping("/meals")
-//    public String meals(Model model){
-//        model.addAttribute("meals",MealsUtil.getWithExcess(mealservice.getAll(SecurityUtil.authUserId()),SecurityUtil.authUserCaloriesPerDay()));
-//        return "meals";
-//    }
+    @GetMapping("/meals")
+    public String meals(Model model){
+        model.addAttribute("meals",MealsUtil.getWithExcess(mealservice.getAll(SecurityUtil.authUserId()),SecurityUtil.authUserCaloriesPerDay()));
+        return "meals";
+    }
 
 
     @PostMapping("/users")
