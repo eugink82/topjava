@@ -17,7 +17,7 @@ import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_EXCEED_CALORIES;
 @Cache(usage= CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
        @NamedQuery(name=User.DELETE,query="DELETE FROM User u WHERE u.id=:id"),
-       @NamedQuery(name=User.BY_EMAIL,query="SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
+       @NamedQuery(name=User.BY_EMAIL,query="SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
        @NamedQuery(name=User.ALL_SORTED,query="SELECT u FROM User u ORDER BY u.name,u.email")
 })
 @Entity
@@ -126,7 +126,7 @@ public class User extends AbstractNamedEntity {
         this.caloriesPerDay = caloriesPerDay;
     }
 
-    private void setRoles(Collection<Role> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
