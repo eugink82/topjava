@@ -43,7 +43,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest{
     @Test
     public void create() {
         User newUser = new User(null, "New", "new@gmail.com", "newpass", 1555, false, new Date(), Collections.singleton(Role.ROLE_USER));
-        User created = service.create(newUser);
+        User created = service.create(new User(newUser));
         newUser.setId(created.getId());
         assertMatch(created,newUser);
         assertMatch(service.getAll(), ADMIN, newUser, USER);
@@ -88,7 +88,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest{
         updUser.setName("UpdUser");
         updUser.setCaloriesPerDay(780);
         updUser.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
-        service.update(updUser);
+        service.update(new User(updUser));
         assertMatch(service.get(USER_ID), updUser);
     }
 

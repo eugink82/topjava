@@ -106,7 +106,7 @@ public class User extends AbstractNamedEntity {
         this.enabled = enabled;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
