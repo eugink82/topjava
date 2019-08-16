@@ -36,7 +36,7 @@
 
    <!-- <tx:annotation-driven/> -->
 
-    <tx:annotation-driven transaction-manager="trManager" />
+    <tx:annotation-driven/>
 
     <!--
        <bean id="jdbcTemplate" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.springframework.jdbc.core.JdbcTemplate">
@@ -81,7 +81,7 @@
             <constructor-arg ref="dataSource"/>
         </bean>
 
-        <bean id="trManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
             <property name="dataSource" ref="dataSource"/>
         </bean>
 

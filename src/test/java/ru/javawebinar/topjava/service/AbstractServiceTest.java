@@ -1,60 +1,46 @@
 package ru.javawebinar.topjava.service;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.ExternalResource;
-import org.junit.rules.Stopwatch;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.javawebinar.topjava.ActiveDBProfileResolver;
 import ru.javawebinar.topjava.Profiles;
-import ru.javawebinar.topjava.TimingRules;
+import ru.javawebinar.topjava.TimingExtension;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.javawebinar.topjava.util.ValidationUtil.*;
 
 
-@ContextConfiguration({
+@SpringJUnitConfig(locations = {
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles(resolver= ActiveDBProfileResolver.class)
-public abstract class AbstractServiceTest {
-    @ClassRule
-    public static ExternalResource summary=TimingRules.SUMMARY;
-
-    @ClassRule
-    public static Stopwatch stopWatch=TimingRules.stopwatch;
-
-    @Rule
-    public ExpectedException thrown=ExpectedException.none();
+@ActiveProfiles(resolver = ActiveDBProfileResolver.class)
+@ExtendWith(TimingExtension.class)
+abstract class AbstractServiceTest {
 
     @Autowired
     protected Environment env;
 
-    public <T extends Throwable> void validationRootCause(Runnable runnable,Class<T> exceptionClass){
-        try{
-            runnable.run();
-            Assert.fail("Expected "+exceptionClass.getName());
-        }
-        catch(Exception e){
-            Assert.assertThat(getRootCause(e), CoreMatchers.instanceOf(exceptionClass));
-        }
+    <T extends Throwable> void validationRootCause(Runnable runnable, Class<T> exceptionClass) {
+        assertThrows(exceptionClass, () -> {
+            try {
+                runnable.run();
+            } catch (Exception e) {
+                throw getRootCause(e);
+            }
+        });
     }
 
-    protected boolean isJpaTest(){
+    protected boolean isJpaTest() {
         return Arrays.stream(env.getActiveProfiles()).anyMatch(Profiles.JPA::equals) || Arrays.stream(env.getActiveProfiles()).anyMatch(Profiles.DATAJPA::equals);
     }
 
