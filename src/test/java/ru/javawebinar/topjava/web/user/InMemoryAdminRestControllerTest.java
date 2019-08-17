@@ -41,11 +41,6 @@ public class InMemoryAdminRestControllerTest {
     }
 
     @Test
-     void create() {
-        controller.create(new User(null, "name", "name@mail.ru", "password", Role.ROLE_USER));
-    }
-
-    @Test
      void delete() {
         controller.delete(UserTestData.USER_ID);
         Collection<User> users = controller.getAll();

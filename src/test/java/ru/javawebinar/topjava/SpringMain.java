@@ -29,7 +29,8 @@ public class SpringMain {
             System.out.println(Arrays.stream(env.getActiveProfiles()).anyMatch(Profiles.JDBC::equals));
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
-            adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ROLE_ADMIN));
+          //  adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ROLE_ADMIN));
+            adminUserController.getAll();
             MealRestController mealController = appCtx.getBean(MealRestController.class);
             List<MealTo> mealfiteredWithExcess = mealController.getBetween(LocalDate.of(2015, Month.MAY, 30),
                     LocalTime.of(7, 0), LocalDate.of(2015, Month.MAY, 31), LocalTime.of(11, 0));

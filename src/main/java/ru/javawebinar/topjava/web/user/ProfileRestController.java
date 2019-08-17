@@ -1,22 +1,30 @@
 package ru.javawebinar.topjava.web.user;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.web.SecurityUtil;
 
-@Controller
+@RestController
+@RequestMapping("/rest/profile")
 public class ProfileRestController extends AbstractUserController{
-    @Override
-    public void delete(int id) {
-        super.delete(id);
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete() {
+        super.delete(SecurityUtil.authUserId());
     }
 
-    @Override
-    public User get(int id) {
-        return super.get(id);
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get() {
+        return super.get(SecurityUtil.authUserId());
     }
 
-    @Override
-    public void update(User user, int id) {
-        super.update(user, id);
+    @PutMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@RequestBody User user) {
+        super.update(user, SecurityUtil.authUserId());
     }
 }

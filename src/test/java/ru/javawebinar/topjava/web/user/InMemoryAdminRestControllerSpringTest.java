@@ -28,10 +28,6 @@ public class InMemoryAdminRestControllerSpringTest {
         repository.init();
     }
 
-    @Test
-    void create() {
-        controller.create(new User(null, "name", "name@mail.ru", "password", Role.ROLE_USER));
-    }
 
     @Test
     void delete() {
