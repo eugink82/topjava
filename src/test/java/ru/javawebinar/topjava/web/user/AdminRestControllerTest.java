@@ -18,7 +18,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
     void testGet() throws Exception{
         mockMvc.perform(get(REST_URL+ADMIN_ID))
                 .andExpect(status().isOk())
-                .andDo(print());
-               // .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 }
