@@ -17,7 +17,7 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 @RequestMapping(value= AdminRestController.REST_URL,produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController extends AbstractUserController{
 
-    public static final String REST_URL = "rest/admin/users";
+    public static final String REST_URL = "/rest/admin/users";
 
     @PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@RequestBody User user){
