@@ -23,7 +23,7 @@ import javax.annotation.PostConstruct;
 })
 //@WebAppConfiguration
 //@RunWith(SpringJUnit4ClassRunner.class)
-//@Transactional
+@Transactional
 @ActiveProfiles(resolver= AllActiveProfileResolver.class)
 public class AbstractControllerTest {
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();

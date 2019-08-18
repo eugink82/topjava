@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 
@@ -7,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.javawebinar.topjava.TestUtil.*;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 
 public class UserTestData {
@@ -26,6 +28,14 @@ public class UserTestData {
 
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("meals","registered").isEqualTo(expected);
+    }
+
+    public static ResultMatcher contentJson(User... expected){
+        return result->assertMatch(readListFromJsonMvcResult(result,User.class),expected);
+    }
+
+    public static ResultMatcher contentJson(User expected){
+        return result->assertMatch(readFromJsonMvcResult(result,User.class),expected);
     }
 
 }

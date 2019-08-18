@@ -8,8 +8,9 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
 @RestController
-@RequestMapping("/rest/profile")
+@RequestMapping(ProfileRestController.REST_URL)
 public class ProfileRestController extends AbstractUserController{
+    static final String REST_URL="/rest/profile";
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
