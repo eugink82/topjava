@@ -28,4 +28,10 @@ public class ProfileRestController extends AbstractUserController{
     public void update(@RequestBody User user) {
         super.update(user, SecurityUtil.authUserId());
     }
+
+    @GetMapping("/text")
+    public String textUTF(){
+        return "текст";
+    }
+
 }
