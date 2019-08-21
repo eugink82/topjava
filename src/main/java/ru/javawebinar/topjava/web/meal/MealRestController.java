@@ -60,14 +60,19 @@ public class MealRestController extends AbstractMealController {
 
    // @Override
     @GetMapping("/between")
-//    public List<MealTo> getBetween(@RequestParam @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)LocalDate startDate,
-//                                   @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime startTime,
-//                                   @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate endDate,
-//                                   @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime endTime) {
-//        return super.getBetween(startDate, startTime, endDate, endTime);
-//    }
-    public List<MealTo> getBetween(@RequestParam @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                                   @RequestParam @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate){
-        return super.getBetween(startDate.toLocalDate(),startDate.toLocalTime(),endDate.toLocalDate(),endDate.toLocalTime());
+    public List<MealTo> getBetween(@RequestParam LocalDate startDate,
+                                   @RequestParam LocalTime startTime,
+                                   @RequestParam LocalDate endDate,
+                                   @RequestParam LocalTime endTime) {
+        return super.getBetween(startDate, startTime, endDate, endTime);
     }
+//    public List<MealTo> getBetween(@RequestParam @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+//                                   @RequestParam @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate){
+//        return super.getBetween(startDate.toLocalDate(),startDate.toLocalTime(),endDate.toLocalDate(),endDate.toLocalTime());
+//    }
 }
+
+//@DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
+//@DateTimeFormat(iso=DateTimeFormat.ISO.TIME)
+//@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
+//@DateTimeFormat(iso=DateTimeFormat.ISO.TIME)
