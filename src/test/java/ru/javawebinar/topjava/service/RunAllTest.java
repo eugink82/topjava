@@ -10,8 +10,11 @@ import ru.javawebinar.topjava.service.jdbc.JdbcMealServiceTest;
 import ru.javawebinar.topjava.service.jdbc.JdbcUserServiceTest;
 import ru.javawebinar.topjava.service.jpa.JpaMealServiceTest;
 import ru.javawebinar.topjava.service.jpa.JpaUserServiceTest;
+import ru.javawebinar.topjava.web.RootControllerTest;
+import ru.javawebinar.topjava.web.json.JsonUtilTest;
 import ru.javawebinar.topjava.web.user.InMemoryAdminRestControllerSpringTest;
 import ru.javawebinar.topjava.web.user.InMemoryAdminRestControllerTest;
+import ru.javawebinar.topjava.web.user.ProfileRestControllerTest;
 
 @RunWith(JUnitPlatform.class)
 @SelectClasses(
@@ -23,7 +26,10 @@ import ru.javawebinar.topjava.web.user.InMemoryAdminRestControllerTest;
           DataJpaMealServiceTest.class,
           DataJpaUserServiceTest.class,
           InMemoryAdminRestControllerSpringTest.class,
-          InMemoryAdminRestControllerTest.class
+          InMemoryAdminRestControllerTest.class,
+          RootControllerTest.class,
+          ProfileRestControllerTest.class,
+          JsonUtilTest.class
         }
 )
 public class RunAllTest {

@@ -15,14 +15,14 @@ import static ru.javawebinar.topjava.UserTestData.*;
 @ActiveProfiles(Profiles.DATAJPA)
 public class DataJpaUserServiceTest extends AbstractUserServiceTest {
     @Test
-    void testUserWithMeals(){
+    void UserWithMeals(){
         User admin=service.userWithMeals(ADMIN_ID);
         assertMatch(admin,ADMIN);
         MealTestData.assertMatch(admin.getMeals(),ADMIN_MEAL2,ADMIN_MEAL1);
     }
 
     @Test
-    void testUserWithoutMeal(){
+    void UserWithoutMeal(){
         assertThrows(NotFoundException.class,()->
         service.userWithMeals(1));
     }

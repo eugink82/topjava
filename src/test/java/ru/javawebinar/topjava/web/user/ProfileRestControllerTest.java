@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.user;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.support.incrementer.AbstractDataFieldMaxValueIncrementer;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
@@ -16,27 +17,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.javawebinar.topjava.UserTestData.*;
 import static ru.javawebinar.topjava.web.user.ProfileRestController.REST_URL;
 
-class ProfileRestControllerTest extends AbstractControllerTest {
+public class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
-    void testDelete() throws Exception{
-        mockMvc.perform(delete(REST_URL))
+    void delete() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isNoContent());
         assertMatch(userService.getAll(),ADMIN);
     }
 
     @Test
-    void testGet() throws Exception{
-        mockMvc.perform(get(REST_URL))
+    void get() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(USER));
     }
 
     @Test
-    void testUpdate() throws Exception{
+    void update() throws Exception{
        User user=new User(USER_ID,"newFIO","myNewEmail@mail.ru","newpassword", Role.ROLE_USER);
-       mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
+       mockMvc.perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
                .content(JsonUtil.writeValue(user)))
                .andDo(print())
                .andExpect(status().isNoContent());

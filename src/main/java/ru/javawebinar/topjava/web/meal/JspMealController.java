@@ -28,7 +28,7 @@ public class JspMealController extends AbstractMealController {
         return "redirect:/meals";
     }
 
-    @PostMapping("/filter")
+    @GetMapping("/filter")
     public String filterMeals(HttpServletRequest request, Model model){
         LocalDate startDate=parseToLocalDate(request.getParameter("startDt"));
         LocalDate   endDate=parseToLocalDate(request.getParameter("endDt"));

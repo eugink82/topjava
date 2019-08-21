@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.user;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
@@ -22,8 +23,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL=AdminRestController.REST_URL+"/";
 
     @Test
-    void testGet() throws Exception{
-        mockMvc.perform(get(REST_URL+ADMIN_ID))
+    void get() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL+ADMIN_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -31,8 +32,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void testGetByEmail() throws Exception{
-        mockMvc.perform(get(REST_URL+"by?email="+USER.getEmail()))
+    void getByEmail() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL+"by?email="+USER.getEmail()))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -40,19 +41,19 @@ class AdminRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void testDelete() throws Exception{
-        mockMvc.perform(delete(REST_URL+USER_ID))
+    void delete() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL+USER_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
                 assertMatch(userService.getAll(),ADMIN);
     }
 
     @Test
-    void testUpdate() throws Exception{
+    void update() throws Exception{
         User newUser=new User(USER);
         newUser.setName("NewName");
         newUser.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
-        mockMvc.perform(put(REST_URL+USER_ID)
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL+USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newUser)))
                 .andExpect(status().isNoContent());
@@ -60,9 +61,9 @@ class AdminRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void testCreate() throws Exception {
+    void createWithLocation() throws Exception {
         User expected=new User(null,"newName","new@mail.ru","newpass",Role.ROLE_USER,Role.ROLE_ADMIN);
-        ResultActions action=mockMvc.perform(post(REST_URL)
+        ResultActions action=mockMvc.perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected)))
                 .andExpect(status().isCreated());
@@ -75,8 +76,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void testGetAll() throws Exception {
-        mockMvc.perform(get(REST_URL))
+    void getAll() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(ADMIN,USER));
