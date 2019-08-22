@@ -17,27 +17,27 @@ import java.util.stream.Collectors;
 
 public class MealsUtil {
 
-    public static final int DEFAULT_EXCEED_CALORIES=2000;
+    public static final int DEFAULT_EXCEED_CALORIES = 2000;
 
     private MealsUtil() {
     }
 
-    public static List<MealTo> getWithExcess(Collection<Meal> meals, int calories){
-        return getFilteredWithExcess(meals,calories,meal->true);
+    public static List<MealTo> getWithExcess(Collection<Meal> meals, int calories) {
+        return getFilteredWithExcess(meals, calories, meal -> true);
     }
 
-    public static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, int calories, Predicate<Meal> filter){
-        Map<LocalDate,Integer> caloriesPerDay=meals.stream().collect(Collectors.groupingBy(Meal::getDate,Collectors.summingInt(Meal::getCalories)));
+    public static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, int calories, Predicate<Meal> filter) {
+        Map<LocalDate, Integer> caloriesPerDay = meals.stream().collect(Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories)));
         return meals.stream().filter(filter)
-                .map(meal->createMealToExcess(meal,caloriesPerDay.get(meal.getDate())>calories)).collect(Collectors.toList());
+                .map(meal -> createMealToExcess(meal, caloriesPerDay.get(meal.getDate()) > calories)).collect(Collectors.toList());
     }
 
-    public static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, @Nullable LocalTime startTime, @Nullable LocalTime endTime, int calories){
-        return getFilteredWithExcess(meals,calories,meal->Util.isBetween(meal.getTime(),startTime,endTime));
+    public static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, @Nullable LocalTime startTime, @Nullable LocalTime endTime, int calories) {
+        return getFilteredWithExcess(meals, calories, meal -> Util.isBetween(meal.getTime(), startTime, endTime));
     }
 
-    private static MealTo createMealToExcess(Meal meal,boolean excess){
-        return new MealTo(meal.getId(),meal.getDateTime(),meal.getDescription(),meal.getCalories(),excess);
+    public static MealTo createMealToExcess(Meal meal, boolean excess) {
+        return new MealTo(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), excess);
     }
 
 }

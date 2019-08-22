@@ -24,7 +24,7 @@ import javax.annotation.PostConstruct;
 //@WebAppConfiguration
 //@RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-@ActiveProfiles(resolver= AllActiveProfileResolver.class)
+@ActiveProfiles(resolver = AllActiveProfileResolver.class)
 public class AbstractControllerTest {
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
 
@@ -44,12 +44,13 @@ public class AbstractControllerTest {
     @Autowired
     protected UserService userService;
 
+
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @PostConstruct
-    private void postConstruct(){
-        mockMvc= MockMvcBuilders
+    private void postConstruct() {
+        mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .addFilter(CHARACTER_ENCODING_FILTER)
                 .build();

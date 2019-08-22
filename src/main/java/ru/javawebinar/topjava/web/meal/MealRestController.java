@@ -1,53 +1,61 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.to.MealTo;
 
-@Controller
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@RestController
+@RequestMapping(value = MealRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealRestController extends AbstractMealController {
-//    private static final Logger LOG= LoggerFactory.getLogger(MealRestController.class);
-//    private MealService service;
-//
-//    @Autowired
-//    public MealRestController(MealService service) {
-//        this.service = service;
-//    }
-//
-//    public Meal create(Meal meal){
-//        int userId= SecurityUtil.authUserId();
-//        ValidationUtil.checkNew(meal);
-//        LOG.debug("create meal{} for use{}",meal, userId);
-//        return service.create(meal,userId);
-//    }
-//
-//    public void delete(int id){
-//        int userId=SecurityUtil.authUserId();
-//        LOG.debug("delete meal{} for userId{}",id,userId);
-//        service.delete(id,userId);
-//    }
-//
-//    public Meal get(int id){
-//        int userId=SecurityUtil.authUserId();
-//        LOG.debug("get meal{} for user{}",id,userId);
-//        return service.get(id,userId);
-//    }
-//
-//    public void update(Meal meal, int id){
-//        int userId=SecurityUtil.authUserId();
-//        ValidationUtil.assureIdConsistent(meal,id);
-//        LOG.debug("update meal{} for user{}",meal,userId);
-//        service.update(meal,userId);
-//    }
-//
-//    public List<MealTo> getAll(){
-//        int userId=SecurityUtil.authUserId();
-//        LOG.debug("getAll for user{}",userId);
-//        return MealsUtil.getWithExcess(service.getAll(userId),SecurityUtil.authUserCaloriesPerDay());
-//    }
-//
-//    public List<MealTo> getBetween(LocalDate startDt, LocalTime startTime, LocalDate endDt, LocalTime endTime){
-//        int userId=SecurityUtil.authUserId();
-//        LOG.info("getBetween dates({} - {}) time({} - {}) for user {}", startDt, endDt, startTime, endTime, userId);
-//        List<Meal> meals= service.getBetweenDates(startDt,endDt,userId);
-//        return MealsUtil.getFilteredWithExcess(meals,startTime,endTime,SecurityUtil.authUserCaloriesPerDay());
-//    }
+    static final String REST_URL = "/rest/profile/meals";
+
+    @Override
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        super.delete(id);
+    }
+
+    @Override
+    @GetMapping("/{id}")
+    public Meal get(@PathVariable int id) {
+        return super.get(id);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Meal> createWithLocations(@RequestBody Meal meal) {
+        Meal created = super.create(meal);
+        URI newUriResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}").buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(newUriResource).body(created);
+    }
+
+    @Override
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@RequestBody Meal meal, @PathVariable int id) {
+        super.update(meal, id);
+    }
+
+    @Override
+    @GetMapping
+    public List<MealTo> getAll() {
+        return super.getAll();
+    }
+
+
+    @GetMapping("/between")
+    public List<MealTo> getBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateTime,
+                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateTime) {
+        return super.getBetween(startDateTime.toLocalDate(), startDateTime.toLocalTime(), endDateTime.toLocalDate(), endDateTime.toLocalTime());
+    }
 }
