@@ -6,15 +6,22 @@
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <jsp:include page="fragments/bodyTag.jsp"/>
-<h3><spring:message code="user.title"/></h3>
-<section>
-    <table border="1" cellspacing="0" cellpadding="8">
+<div class="jumbotron pt-4">
+   <div class="container">
+       <h3 class="text-center"><spring:message code="user.title"/></h3>
+       <button  class="btn  btn-primary">
+           <span class="fa fa-plus"></span>
+           <spring:message code="common.add"/>
+       </button>
+    <table class="table table-striped mt-3">
       <tr>
         <th><spring:message code="user.name"/></th>
         <th><spring:message code="user.email"/></th>
         <th><spring:message code="user.roles"/></th>
         <th><spring:message code="user.active"/></th>
         <th><spring:message code="user.registered"/></th>
+        <th></th>
+        <th></th>
       </tr>
         <c:forEach items="${users}" var="user">
             <jsp:useBean id="user" type="ru.javawebinar.topjava.model.User"/>
@@ -22,12 +29,15 @@
                 <td>${user.name}</td>
                 <td><a href="mailto:${user.email}">${user.email}</a></td>
                 <td>${user.roles}</td>
-                <td>${user.enabled}</td>
+                <td><input type="checkbox" <c:if test="${user.enabled}">checked</c:if>> </td>
                 <td><fmt:formatDate value="${user.registered}" pattern="dd-MM-yyyy"/></td>
+                <td><a><span class="fa fa-pencil"></span></a></td>
+                <td><a><span class="fa fa-remove"></span></a></td>
            </tr>
         </c:forEach>
     </table>
-</section>
+   </div>
+</div>
 <hr>
 <jsp:include page="fragments/footerTag.jsp"/>
 </body>
