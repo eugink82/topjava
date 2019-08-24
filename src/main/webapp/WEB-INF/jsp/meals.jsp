@@ -4,15 +4,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
-<head>
     <jsp:include page="fragments/headTag.jsp"/>
-</head>
 <body>
  <jsp:include page="fragments/bodyTag.jsp"/>
 <section>
-    <h2><a href="${pageContext.request.contextPath}/"><spring:message code="app.home"/></a></h2>
-    <hr>
-    <h2><spring:message code="meal.title"/></h2>
+    <h3><spring:message code="meal.title"/></h3>
+
     <form method="get" action="meals/filter">
         <dl>
             <dt><spring:message code="meal.startDate"/>:</dt>
@@ -33,7 +30,7 @@
         <button type="submit"><spring:message code="meal.filter"/></button>
     </form>
     <hr>
-    <h3><a href="meals/create"><spring:message code="meal.add"/></a></h3>
+    <a href="meals/create"><spring:message code="meal.add"/></a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
         <tr>
