@@ -16,6 +16,7 @@
            <spring:message code="common.add"/>
        </button>
     <table class="table table-striped" id="datatable">
+      <thead>
       <tr>
         <th><spring:message code="user.name"/></th>
         <th><spring:message code="user.email"/></th>
@@ -25,6 +26,7 @@
         <th></th>
         <th></th>
       </tr>
+      </thead>
         <c:forEach items="${users}" var="user">
             <jsp:useBean id="user" type="ru.javawebinar.topjava.model.User"/>
             <tr>
