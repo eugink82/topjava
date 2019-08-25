@@ -14,18 +14,16 @@ import java.util.List;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(value= AdminRestController.REST_URL,produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminRestController extends AbstractUserController{
+@RequestMapping(value = AdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminRestController extends AbstractUserController {
 
     public static final String REST_URL = "/rest/admin/users";
 
-    @PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@RequestBody User user){
-        LOG.info("create{}",user);
-        checkNew(user);
-        User created=service.create(user);
-        URI uriOfNewResources= ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL+"/{id}")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> createWithLocation(@RequestBody User user) {
+        User created = super.create(user);
+        URI uriOfNewResources = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResources).body(created);
     }
@@ -44,21 +42,20 @@ public class AdminRestController extends AbstractUserController{
     }
 
     @GetMapping("/by")
-    public User getByEmail(@RequestParam String email){
-        LOG.info("getByEmail{}",email);
+    public User getByEmail(@RequestParam String email) {
+        LOG.info("getByEmail{}", email);
         return service.getByEmail(email);
     }
 
     @Override
-    @PutMapping(value="/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody User user,@PathVariable int id) {
+    public void update(@RequestBody User user, @PathVariable int id) {
         super.update(user, id);
     }
 
     @GetMapping
-    public List<User> getAll(){
-        LOG.info("getAll");
-        return service.getAll();
+    public List<User> getAll() {
+        return super.getAll();
     }
 }

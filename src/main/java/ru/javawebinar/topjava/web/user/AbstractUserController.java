@@ -18,7 +18,16 @@ public abstract class AbstractUserController {
     @Autowired
     protected UserService service;
 
+    public List<User> getAll(){
+        LOG.info("getAll");
+        return service.getAll();
+    }
 
+    public User create(User user){
+        LOG.info("create{}",user);
+        checkNew(user);
+        return service.create(user);
+    }
 
     public void delete(int id){
         LOG.info("delete{}",id);
