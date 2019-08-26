@@ -3,7 +3,10 @@ var datatableApi;
 
 // $(document).ready(function () {
 $(function () {
-    datatableApi = $("#datatable").DataTable({
+    makeEditable({
+
+    ajaxUrl : "ajax/admin/users/",
+    datatableApi : $("#datatable").DataTable({
         "paging": false,
         "info": true,
         "columns": [
@@ -37,6 +40,7 @@ $(function () {
                 "asc"
             ]
         ]
-    });
-    makeEditable();
+    })
+        }
+    );
 });
