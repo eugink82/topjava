@@ -23,13 +23,13 @@ public class AdminUIController extends AbstractUserController {
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id){
+    public void delete(@PathVariable("id") int id){
         super.delete(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@RequestParam int id,@RequestParam String name,@RequestParam String email,@RequestParam String password){
+    public void createOrUpdate(@RequestParam Integer id,@RequestParam String name,@RequestParam String email,@RequestParam String password){
         User user=new User(id,name,email,password, Role.ROLE_USER);
         if(user.isNew()){
            super.create(user);
