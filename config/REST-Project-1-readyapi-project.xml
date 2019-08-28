@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="08ad3db3-f879-45f5-9607-d554b8198fe1" created="2.8.0" activeEnvironment="Default environment" name="REST Project 1" resourceRoot="" updated="2.8.0 2019-07-23T17:43:45Z" xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project id="08ad3db3-f879-45f5-9607-d554b8198fe1" created="2.8.0" activeEnvironment="Default environment" name="REST Project 1" resourceRoot="" updated="2.8.0 2019-07-23T17:43:45Z" encryptionMode="Not encrypted" xmlns:con="http://eviware.com/soapui/config">
   <con:settings/>
   <con:interface xsi:type="con:RestService" id="97aed6e7-6b7a-44e7-8728-86afdfc13893" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
@@ -27,6 +27,7 @@
           <con:request/>
           <con:originalUri>http://localhost/topjava/rest/admin/users/</con:originalUri>
           <con:credentials>
+            <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
             <con:authType>No Authorization</con:authType>
           </con:credentials>
           <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -40,6 +41,7 @@
           <con:request/>
           <con:originalUri>http://localhost/topjava/rest/admin/users/100001</con:originalUri>
           <con:credentials>
+            <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
             <con:authType>No Authorization</con:authType>
           </con:credentials>
           <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>

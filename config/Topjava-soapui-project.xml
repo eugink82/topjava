@@ -39,11 +39,11 @@
           <con:request/>
           <con:originalUri>http://localhost/topjava/rest/admin/users</con:originalUri>
           <con:credentials>
-            <con:username>user@yandex.ru</con:username>
-            <con:password>password</con:password>
-            <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+            <con:username>admin@gmail.com</con:username>
+            <con:password>admin</con:password>
+            <con:selectedAuthProfile>Basic</con:selectedAuthProfile>
             <con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes>
-            <con:authType>No Authorization</con:authType>
+            <con:authType>Global HTTP Settings</con:authType>
           </con:credentials>
           <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
           <con:jmsPropertyConfig/>
@@ -238,6 +238,7 @@
             <con:request/>
             <con:originalUri>http://localhost/topjava/rest/profile/meals</con:originalUri>
             <con:credentials>
+              <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -265,6 +266,7 @@
             <con:request/>
             <con:originalUri>http://localhost/topjava/rest/profile/meals/100005</con:originalUri>
             <con:credentials>
+              <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
               <con:authType>No Authorization</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
@@ -447,6 +449,12 @@
     <con:settings/>
     <con:savedRecentRuns>1</con:savedRecentRuns>
     <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="8834b9e0-c6c7-4234-869a-c749ed24c42e" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="TestCase 1" searchProperties="true" timeout="0">
+      <con:settings/>
+      <con:savedRecentRuns>1</con:savedRecentRuns>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
     <con:properties/>
     <con:reportParameters/>
   </con:testSuite>
