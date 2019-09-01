@@ -25,7 +25,7 @@ function deleteRow(id) {
         url: context.ajaxUrl + id,
         type: "DELETE"
     }).done(function () {
-        updateTable();
+        context.updateTable();
         successNoty("пользователь удален!")
     });
 }

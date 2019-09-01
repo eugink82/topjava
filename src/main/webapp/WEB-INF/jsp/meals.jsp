@@ -18,27 +18,27 @@
                     <div class="row">
                         <div class="col-3">
                             <label for="startDate"><spring:message code="meal.startDate"/>:</label>
-                            <input class="form-control" type="date" name="startDate" name="startDate" id="startDate"
-                                   value="${param.startDate}">
+                            <input class="form-control" type="date" name="startDate" id="startDate"
+                                   >
                         </div>
                         <div class="col-3">
                         <label for="endDate"><spring:message code="meal.endDate"/>:</label>
-                        <input class="form-control" type="date" name="endDate" id="endDate" value="${param.endDate}">
+                        <input class="form-control" type="date" name="endDate" id="endDate" >
                         </div>
                         <div class="offset-2 col-2">
                         <label for="startTime"><spring:message code="meal.startTime"/>:</label>
-                        <input class="form-control" type="time" name="startTime" id="startTime" value="${param.startTime}">
+                        <input class="form-control" type="time" name="startTime" id="startTime" >
                         </div>
                         <div class="col-2">
                         <label for="endTime"><spring:message code="meal.endTime"/>:</label>
-                        <input class="form-control" type="time" name="endTime" id="endTime" value="${param.endTime}">
+                        <input class="form-control" type="time" name="endTime" id="endTime" >
                         </div>
                         <%--<button type="submit"><spring:message code="meal.filter"/></button>--%>
                     </div>
                 </form>
             </div>
             <div class="card-footer text-right">
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" onclick="updateTableByFilter()">
                     <span class="fa fa-filter"></span>
                     <spring:message code="meal.filter"/>
                 </button>

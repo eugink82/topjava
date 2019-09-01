@@ -1,4 +1,3 @@
-var ajaxUrlMeals="ajax/profile/meals/";
 function updateTableByFilter(){
     $.ajax({
         type:"GET",
@@ -9,7 +8,7 @@ function updateTableByFilter(){
 
 $(function(){
     makeEditable({
-    ajaxUrl: ajaxUrlMeals,
+    ajaxUrl: "ajax/profile/meals/",
     dataTableApi: $("#datatable").DataTable({
         "paging":false,
         "info":true,
