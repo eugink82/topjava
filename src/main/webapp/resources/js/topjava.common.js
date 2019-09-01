@@ -1,9 +1,9 @@
-let context, form;
+let context, form,formF;
 
 function makeEditable(ctx) {
     context = ctx;
     form = $('#detailsForm');
-
+    formF=$('#filterForm');
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);
     });
@@ -32,7 +32,11 @@ function deleteRow(id) {
 function updateTable() {
     $.get(context.ajaxUrl, function (data) {
         context.datatableApi.clear().rows.add(data).draw();
-    });
+   });
+}
+
+function updateDataForTable(data){
+    context.datatableApi.clear().rows.add(data).draw();
 }
 
 function save() {
@@ -42,7 +46,7 @@ function save() {
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateTable();
+        context.updateTable();
         successNoty("Saved");
     });
 }
@@ -74,3 +78,4 @@ function failNoty(jqXHR) {
         layout: "bottomRight"
     }).show();
 }
+

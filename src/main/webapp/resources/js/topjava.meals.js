@@ -1,4 +1,18 @@
 // $(document).ready(function () {
+
+function filter(){
+  $.ajax({
+     type: "GET",
+     url: "ajax/profile/meals/filter",
+     data: $("#filterForm").serialize()
+  }).done(updateDataForTable);
+}
+
+function cancelFilter(){
+    $("#filterForm")[0].reset();
+    $.get("ajax/profile/meals",updateDataForTable);
+
+}
 $(function () {
     makeEditable({
             ajaxUrl: "ajax/profile/meals/",
@@ -30,7 +44,8 @@ $(function () {
                         "desc"
                     ]
                 ]
-            })
+            }),
+        updateTable: filter
         }
     );
 });

@@ -1,3 +1,17 @@
+function enable(id,checkbox){
+    const enabled=checkbox.is(":checked");
+    $.ajax({
+        url: "ajax/admin/users/"+id,
+        type: "POST",
+        data: "enabled="+enabled
+    }).done(function(){
+        checkbox.closest("tr").attr("data-userEnabled",enabled);
+        successNoty(enabled ? "enabled" : "disabled");
+    }).fail(function(){
+        $(checkbox).prop("checked",!enabled);
+    });
+}
+
 // $(document).ready(function () {
 $(function () {
     makeEditable({
@@ -36,7 +50,10 @@ $(function () {
                         "asc"
                     ]
                 ]
-            })
+            }),
+        updateTable: function(){
+                $.get("ajax/admin/users/",updateDataForTable);
+        }
         }
     );
 });

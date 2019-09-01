@@ -14,29 +14,32 @@
         <h3 class="text-center"><spring:message code="meal.title"/></h3>
         <div class="card border-dark">
             <div class="card-body pb-1">
-                <form method="get" action="meals/filter">
+                <form id="filterForm">
                     <div class="row">
                         <div class="offset-1 col-2">
                             <label><spring:message code="meal.startDate"/>:</label>
-                            <input type="date" name="startDate" class="form-control" value="${param.startDate}">
+                            <input type="date" name="startDate" id="startDate" class="form-control" value="${param.startDate}">
                         </div>
                         <div class="col-2">
                             <label><spring:message code="meal.endDate"/>:</label>
-                            <input type="date" name="endDate" class="form-control" value="${param.endDate}">
+                            <input type="date" name="endDate" id="endDate" class="form-control" value="${param.endDate}">
                         </div>
                         <div class="offset-2 col-2">
                             <label><spring:message code="meal.startTime"/>:</label>
-                            <input type="time" name="startTime" class="form-control" value="${param.startTime}">
+                            <input type="time" name="startTime" id="startTime" class="form-control" value="${param.startTime}">
                         </div>
                         <div class="col-2">
                             <label><spring:message code="meal.endTime"/>:</label>
-                            <input type="time" name="endTime" class="form-control" value="${param.endTime}">
+                            <input type="time" name="endTime" id="endTime" class="form-control" value="${param.endTime}">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="card-footer text-right">
-                <button type="submit" class="btn btn-primary">
+                <button class="btn btn-danger"  onclick="cancelFilter()">
+                    <span class="fa fa-remove"></span>
+                    <spring:message code="common.cancel"/></button>
+                <button class="btn btn-primary" onclick="filter()">
                     <span class="fa fa-filter"></span>
                     <spring:message code="meal.filter"/></button>
             </div>
@@ -83,7 +86,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><spring:message code="user.add"/></h4>
+                <h4 class="modal-title"><spring:message code="meal.add"/></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
