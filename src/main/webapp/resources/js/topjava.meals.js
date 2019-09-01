@@ -9,7 +9,7 @@ function updateTableByFilter(){
 $(function(){
     makeEditable({
     ajaxUrl: "ajax/profile/meals/",
-    dataTableApi: $("#datatable").DataTable({
+    datatableApi: $("#datatable").DataTable({
         "paging":false,
         "info":true,
         "columns": [
