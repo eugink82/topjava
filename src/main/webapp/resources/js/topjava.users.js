@@ -1,11 +1,11 @@
-var ajaxUrl = "ajax/admin/users/";
+var ajaxUrlUsers = "ajax/admin/users/";
 var datatableApi;
 
 // $(document).ready(function () {
 $(function () {
     makeEditable({
 
-    ajaxUrl : "ajax/admin/users/",
+    ajaxUrl : ajaxUrlUsers,
     datatableApi : $("#datatable").DataTable({
         "paging": false,
         "info": true,
@@ -40,7 +40,10 @@ $(function () {
                 "asc"
             ]
         ]
-    })
+    }),
+        updateTable: function(){
+            $.get(ajaxUrlUsers,updateTableByData);
+        }
         }
     );
 });

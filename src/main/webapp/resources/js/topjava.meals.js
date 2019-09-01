@@ -1,0 +1,46 @@
+var ajaxUrlMeals="ajax/profile/meals/";
+function updateTableByFilter(){
+    $.ajax({
+        type:"GET",
+        url: "ajax/profile/meals/filter",
+        data: $("#filter").serialize()
+    }).done(updateTableByData);
+}
+
+$(function(){
+    makeEditable({
+    ajaxUrl: ajaxUrlMeals,
+    dataTableApi: $("#datatable").DataTable({
+        "paging":false,
+        "info":true,
+        "columns": [
+            {
+                "data": "dateTime"
+            },
+            {
+                "data": "description"
+            },
+            {
+                "data": "calories"
+            },
+            {
+                "defaultContent": "Edit",
+                "orderable": false
+            },
+            {
+                "defaultContent": "Delete",
+                "orderable": false
+            }
+        ],
+        "order": [
+            [
+                0,
+                "desc"
+            ]
+        ]
+    })
+        ,
+        updateTable: updateTableByFilter
+});
+
+});

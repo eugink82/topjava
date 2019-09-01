@@ -39,7 +39,7 @@ function deleteRow(id) {
 function updateTableByData(data) {
    // $.get(context.ajaxUrl, function (data) {
         context.datatableApi.clear().rows.add(data).draw();
-    });
+   // });
 }
 
 function save() {
