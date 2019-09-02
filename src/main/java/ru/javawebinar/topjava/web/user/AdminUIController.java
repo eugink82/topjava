@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.UserUtil;
 
 import java.awt.*;
 import java.util.List;
@@ -29,8 +31,8 @@ public class AdminUIController extends AbstractUserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@RequestParam Integer id,@RequestParam String name,@RequestParam String email,@RequestParam String password){
-        User user=new User(id,name,email,password, Role.ROLE_USER);
+    public void createOrUpdate(UserTo userTo){
+        User user= UserUtil.createNewFromTo(userTo);
         if(user.isNew()){
            super.create(user);
         }

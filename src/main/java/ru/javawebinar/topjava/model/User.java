@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.*;
 
-import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_EXCEED_CALORIES;
+import static ru.javawebinar.topjava.util.UserUtil.DEFAULT_EXCEED_CALORIES;
 
 @Cache(usage= CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({

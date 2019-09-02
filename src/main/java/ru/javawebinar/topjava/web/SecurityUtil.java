@@ -2,7 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import ru.javawebinar.topjava.model.AbstractBaseEntity;
 
-import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_EXCEED_CALORIES;
+import static ru.javawebinar.topjava.util.UserUtil.DEFAULT_EXCEED_CALORIES;
 public class SecurityUtil {
     private static int id= AbstractBaseEntity.START_SEQ;
 

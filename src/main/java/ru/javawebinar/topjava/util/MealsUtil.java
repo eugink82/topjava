@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class MealsUtil {
 
-    public static final int DEFAULT_EXCEED_CALORIES = 2000;
+
 
     private MealsUtil() {
     }
