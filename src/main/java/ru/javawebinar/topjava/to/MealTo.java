@@ -1,9 +1,11 @@
 package ru.javawebinar.topjava.to;
 
+import ru.javawebinar.topjava.HasId;
+
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MealTo {
+public class MealTo implements HasId {
     private Integer id;
 
     private LocalDateTime dateTime;
@@ -27,6 +29,11 @@ public class MealTo {
 
     public Integer getId() {
         return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id=id;
     }
 
     public LocalDateTime getDateTime() {

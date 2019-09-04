@@ -6,6 +6,8 @@ import org.springframework.jdbc.support.incrementer.AbstractDataFieldMaxValueInc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.UserUtil;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
@@ -36,12 +38,13 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void update() throws Exception{
-       User user=new User(USER_ID,"newFIO","myNewEmail@mail.ru","newpassword", Role.ROLE_USER);
+       UserTo userTo=new UserTo(null,"newFIO","myNewEmail@mail.ru","newpassword");
        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
-               .content(JsonUtil.writeValue(user)))
+               .content(JsonUtil.writeValue(userTo)))
                .andDo(print())
                .andExpect(status().isNoContent());
 
-       assertMatch(userService.getByEmail("myNewEmail@mail.ru"),user);
+       assertMatch(userService.getByEmail("myNewEmail@mail.ru"),
+               UserUtil.updateFromTo(new User(USER),userTo));
     }
 }

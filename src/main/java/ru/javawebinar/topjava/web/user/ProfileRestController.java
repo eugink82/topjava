@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
 @RestController
@@ -25,8 +26,8 @@ public class ProfileRestController extends AbstractUserController{
 
     @PutMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody User user) {
-        super.update(user, SecurityUtil.authUserId());
+    public void update(@RequestBody UserTo userTo) {
+        super.update(userTo, SecurityUtil.authUserId());
     }
 
     @GetMapping("/text")

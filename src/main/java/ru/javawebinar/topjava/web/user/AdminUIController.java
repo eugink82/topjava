@@ -32,9 +32,10 @@ public class AdminUIController extends AbstractUserController {
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdate(UserTo userTo){
-        User user= UserUtil.createNewFromTo(userTo);
-        if(user.isNew()){
-           super.create(user);
+        if(userTo.isNew()){
+           super.create(UserUtil.createNewFromTo(userTo));
+        } else {
+            super.update(userTo, userTo.id());
         }
     }
 
@@ -43,5 +44,11 @@ public class AdminUIController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void enable(@PathVariable int id,@RequestParam boolean enabled) {
         super.enable(id, enabled);
+    }
+
+    @Override
+    @GetMapping(value="/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
+    public User get(@PathVariable("id") int id) {
+        return super.get(id);
     }
 }

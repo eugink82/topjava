@@ -1,6 +1,6 @@
 package ru.javawebinar.topjava.to;
 
-public class UserTo {
+public class UserTo extends BaseTo{
     private Integer id;
     private String name;
     private String email;
@@ -10,19 +10,12 @@ public class UserTo {
     }
 
     public UserTo(Integer id, String name, String email, String password) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -46,10 +39,6 @@ public class UserTo {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isNew(){
-        return id==null;
     }
 
     @Override

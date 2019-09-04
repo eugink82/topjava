@@ -30,6 +30,15 @@ function deleteRow(id) {
     });
 }
 
+function updateRow(id){
+    $.get(
+        context.ajaxUrl+id, function(data){
+            $.each(data,function(key,value){
+                form.find("input[name='"+key+"']").val(value);
+            });
+            $('#editRow').modal();
+        });
+}
 // function updateTable() {
 //      $.get(context.ajaxUrl, function (data) {
 //     context.datatableApi.clear().rows.add(data).draw();
