@@ -1,9 +1,21 @@
 package ru.javawebinar.topjava.to;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class UserTo extends BaseTo{
-    private Integer id;
+    @NotBlank
+    @Size(min=2,max=20)
     private String name;
+
+    @Email
+    @NotBlank
+    @Size(max=100)
     private String email;
+
+    @NotBlank
+    @Size(min=5,max=30, message="Длина пароля должна быть от 5 до 30 символов")
     private String password;
 
     public UserTo() {
