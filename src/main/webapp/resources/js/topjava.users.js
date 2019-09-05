@@ -7,10 +7,10 @@ function enable(checkbox,id){
         data: "enabled="+enabled
     }).done(function(){
         checkbox.closest("tr").attr("data-userEnabled",enabled);
-        successNoty(enabled ? "Enabled" : "Disabled");
+        successNoty(enabled ? "common.enabled" : "common.disabled");
     }).fail(function(){
         $(checkbox).prop("checked",!enabled);
-    })
+    });
 }
 
 // $(document).ready(function () {
@@ -45,7 +45,7 @@ $(function () {
                 "data": "enabled",
                 "render": function(data,type,row){
                     if(type==="display"){
-                        return "<input type='checkbox' " +(data ? "checked" : "")+" onclick='enable($(this),"+row.id+")";
+                        return "<input type='checkbox' " +(data ? "checked" : "")+" onclick='enable($(this),"+row.id+");'>";
                     }
                     return data;
                 }
@@ -77,13 +77,14 @@ $(function () {
             ]
         ],
         "createdRow": function(row,data,dataIndex){
+            debugger;
             if(!data.enabled){
               $(row).attr("data-userEnabled",false);
             }
         }
     }),
         updateTable: function(){
-            $.get("ajax/admin/users/",updateTableByData);
+            $.get(userAjaxUrl,updateTableByData);
         }
         }
     );
