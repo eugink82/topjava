@@ -1,7 +1,8 @@
+const userAjaxUrl="ajax/admin/users/";
 function enable(checkbox,id){
     const enabled=checkbox.is(":checked");
     $.ajax({
-        url: "ajax/admin/users/"+id,
+        url: userAjaxUrl+id,
         type: "POST",
         data: "enabled="+enabled
     }).done(function(){
@@ -16,8 +17,12 @@ function enable(checkbox,id){
 $(function () {
     makeEditable({
 
-    ajaxUrl : "ajax/admin/users/",
+    ajaxUrl : userAjaxUrl,
     datatableApi : $("#datatable").DataTable({
+        "ajax":{
+            "url": userAjaxUrl,
+            "dataSrc":""
+        },
         "paging": false,
         "info": true,
         "columns": [
@@ -25,24 +30,44 @@ $(function () {
                 "data": "name"
             },
             {
-                "data": "email"
+                "data": "email",
+                "render": function(data,type,row){
+                   if(type==="display"){
+                     return "<a href='mailto:"+data+"'>"+data+"</a>";
+                   }
+                   return data;
+                }
             },
             {
                 "data": "roles"
             },
             {
-                "data": "enabled"
+                "data": "enabled",
+                "render": function(data,type,row){
+                    if(type==="display"){
+                        return "<input type='checkbox' " +(data ? "checked" : "")+" onclick='enable($(this),"+row.id+")";
+                    }
+                    return data;
+                }
             },
             {
-                "data": "registered"
+                "data": "registered",
+                "render": function(data,type,row){
+                    if(type==="display"){
+                        return data.substring(0,10);
+                    }
+                    return data;
+                }
             },
             {
-                "defaultContent": "Edit",
-                "orderable": false
+                "defaultContent": "",
+                "orderable": false,
+                "render": renderEditBtn
             },
             {
-                "defaultContent": "Delete",
-                "orderable": false
+                "defaultContent": "",
+                "orderable": false,
+                "render": renderDeleteBtn
             }
         ],
         "order": [
@@ -50,7 +75,12 @@ $(function () {
                 0,
                 "asc"
             ]
-        ]
+        ],
+        "createdRow": function(row,data,dataIndex){
+            if(!data.enabled){
+              $(row).attr("data-userEnabled",false);
+            }
+        }
     }),
         updateTable: function(){
             $.get("ajax/admin/users/",updateTableByData);
