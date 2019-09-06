@@ -4,13 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import ru.javawebinar.topjava.service.MealService;
-import ru.javawebinar.topjava.service.UserService;
-import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class RootController {
@@ -20,11 +16,16 @@ public class RootController {
 
     @GetMapping("/")
     public String root(){
-        return "index";
+        return "redirect:meals";
+    }
+
+    @GetMapping(value="/login")
+    public String login(){
+        return "login";
     }
 
     @GetMapping("/users")
-    public String users(){
+    public String getUsers() {
         return "users";
     }
 
@@ -32,14 +33,6 @@ public class RootController {
     public String meals(Model model){
         model.addAttribute("meals",MealsUtil.getWithExcess(mealservice.getAll(SecurityUtil.authUserId()),SecurityUtil.authUserCaloriesPerDay()));
         return "meals";
-    }
-
-
-    @PostMapping("/users")
-    public String setUser(HttpServletRequest request){
-        int userId=Integer.parseInt(request.getParameter("userId"));
-        SecurityUtil.setAuthUserId(userId);
-        return "redirect:meals";
     }
 
 }
