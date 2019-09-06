@@ -77,7 +77,6 @@ $(function () {
             ]
         ],
         "createdRow": function(row,data,dataIndex){
-            debugger;
             if(!data.enabled){
               $(row).attr("data-userEnabled",false);
             }
