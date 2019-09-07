@@ -38,7 +38,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void update() throws Exception{
-       UserTo userTo=new UserTo(null,"newFIO","myNewEmail@mail.ru","newpassword");
+       UserTo userTo=new UserTo(null,"newFIO","myNewEmail@mail.ru","newpassword",1500);
        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
                .content(JsonUtil.writeValue(userTo)))
                .andDo(print())
