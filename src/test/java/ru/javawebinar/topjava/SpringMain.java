@@ -17,12 +17,16 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
+import static ru.javawebinar.topjava.TestUtil.mockAuthorize;
+import static ru.javawebinar.topjava.UserTestData.USER;
+
 public class SpringMain {
     public static void main(String[] args) {
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml","spring/inmemory.xml"},false)) {
             appCtx.getEnvironment().setActiveProfiles(Profiles.POSTGRES_DB,Profiles.JPA);
             appCtx.refresh();
 
+            mockAuthorize(USER);
             Environment env=appCtx.getBean(Environment.class);
 
             Arrays.stream(env.getActiveProfiles()).forEach(System.out::println);
