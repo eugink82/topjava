@@ -9,7 +9,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class DateTimeUtil {
-    private static final DateTimeFormatter PATTERN_DATETIME_FORMATTER=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final String DATETIME_PATTERN="yyyy-MM-dd HH:mm";
+    public static final DateTimeFormatter PATTERN_DATETIME_FORMATTER=DateTimeFormatter.ofPattern(DATETIME_PATTERN);
 
     private static final LocalDate MIN_DATE=LocalDate.of(1900,1,1);
     private static final LocalDate MAX_DATE=LocalDate.of(2100,1,1);

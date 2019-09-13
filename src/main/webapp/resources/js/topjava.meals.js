@@ -27,7 +27,7 @@ $(function(){
                 "data": "dateTime",
                 "render": function(date,type,row){
                     if(type==="display"){
-                        return date.replace("T"," ").substring(0,16);
+                        return formatDate(date);
                     }
                     return date;
                 }
@@ -64,5 +64,52 @@ $(function(){
         ,
         updateTable: updateTableByFilter
 });
+    const startDate=$('#startDate');
+    const endDate=$('#endDate');
+    startDate.datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d',
+        formatDate: 'Y-m-d',
+        onShow: function(opt){
+            this.setOptions({
+                maxDate: endDate.val() ? endDate.val() : false
+                })
+        }
+    });
+    endDate.datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d',
+        formatDate: 'Y-m-d',
+        onShow: function(opt){
+            this.setOptions({
+                minDate: startDate.val() ? startDate.val() : false
+            })
+        }
+    });
+    const startTime=$('#startTime');
+    const endTime=$('#endTime');
+    startTime.datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        formatDate: 'H:i',
+        onShow: function(opt){
+            this.setOptions({
+                maxTime: endTime.val() ? endTime.val() : false
+            })
+        }
+    });
+    endTime.datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        formatDate: 'H:i',
+        onShow: function(opt){
+            this.setOptions({
+                minTime: startTime.val() ? startTime.val() : false
+            })
+        }
+    });
+    $("#dateTime").datetimepicker({
+        format: 'Y-m-d H:i'
+    })
 
 });
