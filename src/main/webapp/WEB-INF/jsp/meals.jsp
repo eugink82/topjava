@@ -54,6 +54,7 @@
             <spring:message code="common.add"/>
         </button>
         <table class="table table-striped" id="datatable">
+            <thead>
             <tr>
                 <th><spring:message code="meal.dateTime"/></th>
                 <th><spring:message code="meal.description"/></th>
@@ -61,18 +62,7 @@
                 <th></th>
                 <th></th>
             </tr>
-            <c:forEach items="${meals}" var="meal">
-                <jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealTo"/>
-                <tr data-mealExcess="${meal.excess}">
-                    <td><%=DateTimeUtil.toString(meal.getDateTime())%>
-                    </td>
-                        <%-- <td> ${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()} </td> --%>
-                    <td>${meal.description}</td>
-                    <td>${meal.calories}</td>
-                    <td><a><span class="fa fa-pencil"></span></a></td>
-                    <td><a onclick="deleteRow(${meal.id})"><span class="fa fa-remove"></span></a></td>
-                </tr>
-            </c:forEach>
+            </thead>
         </table>
     </div>
 </div>
@@ -126,4 +116,7 @@
 
 <jsp:include page="fragments/footerTag.jsp"/>
 </body>
+<jsp:include page="fragments/i18n.jsp">
+    <jsp:param name="entity" value="meal"/>
+</jsp:include>
 </html>

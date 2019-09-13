@@ -11,9 +11,6 @@ import ru.javawebinar.topjava.util.MealsUtil;
 @Controller
 public class RootController {
 
-    @Autowired
-    private MealService mealservice;
-
     @GetMapping("/")
     public String root(){
         return "redirect:meals";
@@ -30,8 +27,7 @@ public class RootController {
     }
 
     @GetMapping("/meals")
-    public String meals(Model model){
-        model.addAttribute("meals",MealsUtil.getWithExcess(mealservice.getAll(SecurityUtil.authUserId()),SecurityUtil.authUserCaloriesPerDay()));
+    public String meals(){
         return "meals";
     }
 
