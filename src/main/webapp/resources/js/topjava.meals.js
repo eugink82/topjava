@@ -60,24 +60,49 @@ $(function () {
         }),
         updateTable: updateFilteredTable
     });
-    $("#startDate").datetimepicker({
+    const startDate = $('#startDate');
+        const endDate = $('#endDate');
+    startDate.datetimepicker({
         timepicker: false,
-        format: 'Y-m-d'
+        format: 'Y-m-d',
+           formatDate: 'Y-m-d',
+           onShow: function (opt) {
+               this.setOptions({
+                       maxDate: endDate.val() ? endDate.val() : false
+                   })
+           }
   });
 
-    $("#endDate").datetimepicker({
+    endDate.datetimepicker({
       timepicker: false,
-      format: 'Y-m-d'
+      format: 'Y-m-d',
+        formatDate: 'Y-m-d',
+        onShow: function (opt) {
+            this.setOptions({
+                minDate: startDate.val() ? startDate.val() : false
+            })
+        }
+  });
+    const startTime=$('#startTime');
+    const endTime=$('#endTime');
+    startTime.datetimepicker({
+      datepicker: false,
+      format: 'H:i',
+      onShow: function(opt) {
+          this.setOptions({
+              maxTime: endTime.val() ? endTime.val() : false
+          })
+      }
   });
 
-    $("#startTime").datetimepicker({
+    endTime.datetimepicker({
       datepicker: false,
-      format: 'H:i'
-  });
-
-    $("#endTime").datetimepicker({
-      datepicker: false,
-      format: 'H:i'
+      format: 'H:i',
+      onShow: function(opt) {
+          this.setOptions({
+              minTime: startTime.val() ? startTime.val() : false
+          })
+      }
   });
   $("#dateTime").datetimepicker({
       format: 'Y-m-d H:i'
