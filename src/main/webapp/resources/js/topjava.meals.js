@@ -12,6 +12,18 @@ function cancelFilter(){
     $.get(mealAjaxUrl,updateTableByData);
 }
 
+$.ajaxSetup({
+    converters:{
+        "text json": function(str){
+            const json=JSON.parse(str);
+            $(json).each(function(){
+                this.dateTime=this.dateTime.replace('T',' ').substring(0,16);
+            });
+            return json;
+        }
+    }
+});
+
 $(function(){
     makeEditable({
     ajaxUrl: mealAjaxUrl,
@@ -24,13 +36,7 @@ $(function(){
         "info":true,
         "columns": [
             {
-                "data": "dateTime",
-                "render": function(date,type,row){
-                    if(type==="display"){
-                        return formatDate(date);
-                    }
-                    return date;
-                }
+                "data": "dateTime"
             },
             {
                 "data": "description"
