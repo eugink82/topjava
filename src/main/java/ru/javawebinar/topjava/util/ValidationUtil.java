@@ -6,6 +6,8 @@ import ru.javawebinar.topjava.HasId;
 import ru.javawebinar.topjava.model.AbstractBaseEntity;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import javax.validation.*;
+import java.util.Set;
 import java.util.StringJoiner;
 
 public class ValidationUtil {
@@ -68,5 +70,19 @@ public class ValidationUtil {
             }
         });
         return ResponseEntity.unprocessableEntity().body(joiner.toString());
+    }
+
+    private static final Validator validator;
+
+    static {
+        ValidatorFactory validatorFactory= Validation.buildDefaultValidatorFactory();
+        validator=validatorFactory.getValidator();
+    }
+
+    public static <T> void  validate(T bean){
+        Set<ConstraintViolation<T>> violations=validator.validate(bean);
+        if(!violations.isEmpty()){
+            throw  new ConstraintViolationException(violations);
+        }
     }
 }

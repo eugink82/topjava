@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.ValidationUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,14 +42,7 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     @Transactional
     public User save(User user) {
-//        MapSqlParameterSource map = new MapSqlParameterSource()
-//                .addValue("id", user.getId())
-//                .addValue("name", user.getName())
-//                .addValue("email", user.getEmail())
-//                .addValue("password", user.getPassword())
-//                .addValue("registered", user.getRegistered())
-//                .addValue("enabled", user.isEnabled())
-//                .addValue("calories_per_day", user.getCaloriesPerDay());
+        ValidationUtil.validate(user);
         BeanPropertySqlParameterSource map=new BeanPropertySqlParameterSource(user);
         if (user.isNew()) {
             Number newId = insertUser.executeAndReturnKey(map);

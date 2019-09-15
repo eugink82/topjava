@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.ValidationUtil;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -32,37 +33,11 @@ public class JdbcMealRepository implements MealRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-   /*
-    protected abstract T toDbDateTime(LocalDateTime ldt);
-
-    @Repository
-    protected class Java8JdbcMealRepository extends JdbcMealRepository<LocalDateTime>{
-
-        protected Java8JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate){
-            super(jdbcTemplate,namedParameterJdbcTemplate);
-        }
-
-        @Override
-        protected LocalDateTime toDbDateTime(LocalDateTime ldt) {
-            return ldt;
-        }
-    }
-
-    @Repository
-    protected class TimestampJdbcMealRepository extends JdbcMealRepository<Timestamp>{
-        protected TimestampJdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate){
-            super(jdbcTemplate,namedParameterJdbcTemplate);
-        }
-        @Override
-        protected Timestamp toDbDateTime(LocalDateTime ldt) {
-            return Timestamp.valueOf(ldt);
-        }
-    }
-    */
 
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
+        ValidationUtil.validate(meal);
         MapSqlParameterSource map=new MapSqlParameterSource()
                 .addValue("id",meal.getId())
                 .addValue("user_id",userId)
