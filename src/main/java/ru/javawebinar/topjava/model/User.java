@@ -7,7 +7,9 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+
 import org.hibernate.annotations.Cache;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -15,50 +17,50 @@ import java.util.*;
 
 import static ru.javawebinar.topjava.util.UserUtil.DEFAULT_EXCEED_CALORIES;
 
-@Cache(usage= CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
-       @NamedQuery(name=User.DELETE,query="DELETE FROM User u WHERE u.id=:id"),
-       @NamedQuery(name=User.BY_EMAIL,query="SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
-       @NamedQuery(name=User.ALL_SORTED,query="SELECT u FROM User u ORDER BY u.name,u.email")
+        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
+        @NamedQuery(name = User.BY_EMAIL, query = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
+        @NamedQuery(name = User.ALL_SORTED, query = "SELECT u FROM User u ORDER BY u.name,u.email")
 })
 @Entity
-@Table(name="users", uniqueConstraints = {@UniqueConstraint(name="users_unique_email_idx", columnNames = "email")})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(name = "users_unique_email_idx", columnNames = "email")})
 public class User extends AbstractNamedEntity {
-    public static final String DELETE="User_delete";
-    public static final String BY_EMAIL="User_byEmail";
-    public static final String ALL_SORTED="User_getAllSorted";
+    public static final String DELETE = "User_delete";
+    public static final String BY_EMAIL = "User_byEmail";
+    public static final String ALL_SORTED = "User_getAllSorted";
 
 
-    @Column(name="email",unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     @Email
     @NotBlank
-    @Size(max=100)
+    @Size(max = 100)
     private String email;
 
-    @Column(name="password",nullable=false)
+    @Column(name = "password", nullable = false)
     @NotBlank
-    @Size(min=5,max=30)
+    @Size(min = 5, max = 30)
     private String password;
 
-    @Column(name="enabled",nullable = false,columnDefinition = "bool default true")
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
     private boolean enabled = true;
 
-    @Column(name="registered", nullable=false,columnDefinition = "timestamp default now()")
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
     private Date registered = new Date();
 
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name="user_roles",joinColumns = @JoinColumn(name="user_id"))
-    @Column(name="role")
-    @ElementCollection(fetch=FetchType.EAGER)
-    @BatchSize(size=200)
-    @Cache(usage= CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 200)
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Role> roles;
 
-    @Column(name="calories_per_day",nullable = false, columnDefinition ="int default 2000")
-    @Range(min=10, max=10000)
+    @Column(name = "calories_per_day", nullable = false, columnDefinition = "int default 2000")
+    @Range(min = 10, max = 10000)
     private int caloriesPerDay = DEFAULT_EXCEED_CALORIES;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy = "user") //, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user") //, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy("dateTime DESC")
     //@JsonIgnore
     private List<Meal> meals;
@@ -70,7 +72,7 @@ public class User extends AbstractNamedEntity {
         this(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getCaloriesPerDay(), user.isEnabled(), user.getRegistered(), user.getRoles());
     }
 
-    public User(Integer id, String name, String email, String password, Role role, Role... roles) {
+    public User(Integer id, String name, String email, String password, int caloriesPerDay, Role role, Role... roles) {
         this(id, name, email, password, DEFAULT_EXCEED_CALORIES, true, new Date(), EnumSet.of(role, roles));
     }
 

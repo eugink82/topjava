@@ -8,7 +8,7 @@ public class UserUtil {
     public static final int DEFAULT_EXCEED_CALORIES = 2000;
 
     public static User createNewFromTo(UserTo userTo){
-       return new User(null,userTo.getName(), userTo.getEmail(), userTo.getPassword(), Role.ROLE_USER);
+       return new User(null,userTo.getName(), userTo.getEmail(), userTo.getPassword(),userTo.getCaloriesPerDay(), Role.ROLE_USER);
     }
 
     public static UserTo asTo(User user){
@@ -19,6 +19,7 @@ public class UserUtil {
         user.setName(userTo.getName());
         user.setEmail(userTo.getEmail());
         user.setPassword(userTo.getPassword());
+        user.setCaloriesPerDay(userTo.getCaloriesPerDay());
         return user;
     }
 }

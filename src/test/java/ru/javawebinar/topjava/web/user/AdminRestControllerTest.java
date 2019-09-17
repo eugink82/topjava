@@ -68,7 +68,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void createWithLocation() throws Exception {
-        User expected = new User(null, "newName", "new@mail.ru", "newpass", Role.ROLE_USER, Role.ROLE_ADMIN);
+        User expected = new User(null, "newName", "new@mail.ru", "newpass",2300, Role.ROLE_USER, Role.ROLE_ADMIN);
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
