@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.user;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.support.incrementer.AbstractDataFieldMaxValueIncrementer;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
@@ -16,6 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.javawebinar.topjava.TestUtil.readFromJson;
 import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
 import static ru.javawebinar.topjava.UserTestData.*;
 import static ru.javawebinar.topjava.web.user.ProfileRestController.REST_URL;
@@ -58,4 +60,23 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
                // .with(userHttpBasic(USER)))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    void register() throws Exception {
+        UserTo createdTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword", 1500);
+
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.post(REST_URL + "/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(createdTo)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+        User returned = readFromJson(action, User.class);
+
+        User created = UserUtil.createNewFromTo(createdTo);
+        created.setId(returned.getId());
+
+        assertMatch(returned, created);
+        assertMatch(userService.getByEmail("newemail@ya.ru"), created);
+    }
+
 }

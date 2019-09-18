@@ -40,7 +40,7 @@ public class AdminUIController extends AbstractUserController {
             return ValidationUtil.getResponseErrors(result);
         }
         if(userTo.isNew()){
-           super.create(UserUtil.createNewFromTo(userTo));
+           super.create(userTo);
         } else {
             super.update(userTo, userTo.id());
         }

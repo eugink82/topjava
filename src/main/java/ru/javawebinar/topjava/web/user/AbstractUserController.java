@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.UserUtil;
 
 import java.util.List;
 
@@ -28,6 +29,10 @@ public abstract class AbstractUserController {
         LOG.info("create{}",user);
         checkNew(user);
         return service.create(user);
+    }
+
+    public User create(UserTo userTo){
+        return service.create(UserUtil.createNewFromTo(userTo));
     }
 
     public void delete(int id){

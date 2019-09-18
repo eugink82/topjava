@@ -33,4 +33,23 @@ public class ProfileUIController extends AbstractUserController {
             return "redirect:meals";
         }
     }
+
+    @GetMapping("/register")
+    public String register(ModelMap model){
+        model.addAttribute("userTo",new UserTo());
+        model.addAttribute("register",true);
+        return "profile";
+    }
+
+    @PostMapping("/register")
+    public String saveRegister(@Valid UserTo userTo, BindingResult result, SessionStatus status,ModelMap model){
+        if(result.hasErrors()){
+          model.addAttribute("register",true);
+          return "profile";
+        } else {
+            super.create(userTo);
+            status.setComplete();
+            return "redirect:/login?message=app.registered&username="+userTo.getEmail();
+        }
+    }
 }
