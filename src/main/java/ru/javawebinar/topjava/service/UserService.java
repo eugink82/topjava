@@ -1,13 +1,12 @@
 package ru.javawebinar.topjava.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,6 +16,8 @@ import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UserUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+
+import static ru.javawebinar.topjava.util.UserUtil.prepareToSave;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 
@@ -25,10 +26,17 @@ import java.util.List;
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepository repository;
 
-   /*
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
+
+
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    /*
     public void setRepository(UserRepository repository) {
         this.repository = repository;
     } */
@@ -36,7 +44,7 @@ public class UserService implements UserDetailsService {
    @CacheEvict(value="users",allEntries = true)
     public User create(User user) {
         Assert.notNull(user,"user must not be null");
-        return repository.save(user);
+        return repository.save(prepareToSave(user,passwordEncoder));
     }
 
     @CacheEvict(value="users",allEntries = true)
@@ -56,14 +64,14 @@ public class UserService implements UserDetailsService {
     @CacheEvict(value="users",allEntries = true)
     public void update(User user) {
         Assert.notNull(user,"user must not be null");
-        repository.save(user);
+        repository.save(prepareToSave(user,passwordEncoder));
     }
 
     @CacheEvict(value="users",allEntries = true)
     @Transactional
     public void update(UserTo userTo) {
        User user=get(userTo.id());
-       repository.save(UserUtil.updateFromTo(user,userTo));
+       repository.save(prepareToSave(UserUtil.updateFromTo(user,userTo),passwordEncoder));
     }
 
     @Cacheable("users")
