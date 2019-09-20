@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.javawebinar.topjava.TestUtil;
+import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
@@ -79,7 +80,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(expected)))
+                .content(UserTestData.jsonWithPassword(expected,"newpass")))
                 .andExpect(status().isCreated());
 
         User returned = TestUtil.readFromJson(action, User.class);

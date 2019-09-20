@@ -40,4 +40,14 @@ public class JsonUtil {
             throw new IllegalArgumentException("Invalid write to JSON:\n",e);
         }
     }
+
+    public static <T> String writeAdditionProps(T obj,String prop, String value){
+        return writeAdditionProps(obj,Map.of(prop,value));
+    }
+
+    private static <T> String writeAdditionProps(T obj,Map<String,Object> props){
+        Map<String,Object> map=getMapper().convertValue(obj,new TypeReference<Map<String,Object>>(){});
+        map.putAll(props);
+        return writeValue(map);
+    }
 }
