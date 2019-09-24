@@ -9,12 +9,14 @@ import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.exception.ErrorType;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -79,6 +81,19 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void createNotValid() throws Exception{
+        Meal newMeal=new Meal(null,null,"",5);
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(newMeal)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.type").value(ErrorType.VALIDATION_ERROR.name()))
+                .andDo(print());
+    }
+
+    @Test
     void update() throws Exception {
         Meal meal = updatedMeal();
         meal.setDescription("Еще более вечерний ланч");
@@ -92,6 +107,21 @@ class MealRestControllerTest extends AbstractControllerTest {
 
 
     }
+
+    @Test
+    void updateNotValid() throws Exception {
+        Meal meal=new Meal(MEAL_ID,null,null,5);
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL + MEAL_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(USER))
+                .content(JsonUtil.writeValue(meal)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.type").value(ErrorType.VALIDATION_ERROR.name()))
+        .andDo(print());
+
+    }
+
+
 
     @Test
     void getAll() throws Exception {
