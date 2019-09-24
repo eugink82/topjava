@@ -8,12 +8,14 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.util.exception.ErrorType;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
+import java.time.LocalDateTime;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.javawebinar.topjava.MealTestData.assertMatch;
 import static ru.javawebinar.topjava.MealTestData.contentJson;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -41,7 +43,7 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getUnauth() throws Exception {
+    void getUnAuth() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + MEAL1_ID))
                 .andExpect(status().isUnauthorized());
     }
@@ -124,5 +126,31 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk())
                 .andExpect(contentJson(getWithExcess(MEALS, USER.getCaloriesPerDay())));
+    }
+
+    @Test
+    void createInvalid() throws Exception {
+        Meal newMeal=new Meal(null,LocalDateTime.of(2017,8,5,14,0),"Л",15);
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(userHttpBasic(USER))
+                        .content(JsonUtil.writeValue(newMeal)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.type").value(ErrorType.VALIDATION_ERROR.name()))
+                .andDo(print());
+    }
+
+    @Test
+    void updateInvalid() throws Exception {
+        Meal meal=getUpdated();
+        meal.setDescription("");
+        meal.setCalories(5);
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL+MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(USER))
+                .content(JsonUtil.writeValue(meal)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.type").value(ErrorType.VALIDATION_ERROR.name()))
+                .andDo(print());
     }
 }

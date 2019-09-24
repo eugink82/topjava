@@ -12,7 +12,16 @@
     <div class="container text-center">
         <br>
         <h2><spring:message code="common.appError"/></h2>
-        <h3>${message}</h3>
+        <h3>
+           <c:choose>
+            <c:when test="${message=='user.duplicationEmail'}">
+                <spring:message code="${message}"/>
+            </c:when>
+               <c:otherwise>
+                   ${message}
+               </c:otherwise>
+            </c:choose>
+        </h3>
     </div>
 </div>
 <!--
