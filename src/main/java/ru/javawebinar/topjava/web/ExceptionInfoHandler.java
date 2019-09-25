@@ -83,7 +83,7 @@ public class ExceptionInfoHandler {
         } else {
             log.warn("{} at request {}: {}",errorType,req.getRequestURL().toString(),rootCase.toString());
         }
-        return new ErrorInfo(req.getRequestURL(),errorType,details.length!=0 ? details : new String[]{rootCase.toString()});
+        return new ErrorInfo(req.getRequestURL(),errorType,details.length!=0 ? details : new String[]{ValidationUtil.getExceptionMessage(rootCase)});
     }
 
 }
