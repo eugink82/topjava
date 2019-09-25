@@ -17,8 +17,6 @@ import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 public abstract class AbstractUserController {
     protected final Logger LOG= LoggerFactory.getLogger(getClass());
 
-    public final String EXCEPTION_DUPLICATE_EMAIL="user.duplicateEmail";
-
     @Autowired
     protected UserService service;
 
