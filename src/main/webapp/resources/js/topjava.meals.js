@@ -34,6 +34,9 @@ $(function(){
         },
         "paging":false,
         "info":true,
+        "language": {
+            "search": i18n["common.search"]
+        },
         "columns": [
             {
                 "data": "dateTime"

@@ -74,10 +74,7 @@ public class ExceptionInfoHandler {
         BindingResult result=e instanceof BindException ? ((BindException)e).getBindingResult() :
                 ((MethodArgumentNotValidException)e).getBindingResult();
         String[] details=result.getFieldErrors().stream().
-                map(fe->{
-                    String msg=fe.getDefaultMessage();
-                    return msg==null ? messageUtil.getMessage(fe) : msg.startsWith(fe.getField()) ? msg : fe.getField()+' '+msg;
-                }).filter(Objects::nonNull)
+                map(fe->messageUtil.getMessage(fe))
                 .toArray(String[]::new);
         return logAndGetErrorInfo(req,e,false,VALIDATION_ERROR,details);
     }
@@ -95,14 +92,15 @@ public class ExceptionInfoHandler {
     }
 
 
-    private static ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType,String... details){
+    private ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType,String... details){
         Throwable rootCase= ValidationUtil.getRootCause(e);
         if(logException){
             log.error(errorType+"at request "+req.getRequestURL().toString(),rootCase);
         } else {
             log.warn("{} at request {}: {}",errorType,req.getRequestURL().toString(),rootCase.toString());
         }
-        return new ErrorInfo(req.getRequestURL(),errorType,details.length!=0 ? details : new String[]{ValidationUtil.getExceptionMessage(rootCase)});
+        return new ErrorInfo(req.getRequestURL(),errorType,messageUtil.getMessage(errorType.getErrorCode()),
+                details.length!=0 ? details : new String[]{ValidationUtil.getExceptionMessage(rootCase)});
     }
 
 }
