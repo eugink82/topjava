@@ -13,13 +13,11 @@ import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.exception.ErrorType;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
-import ru.javawebinar.topjava.web.ExceptionInfoHandler;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -175,7 +173,7 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(newMeal)))
                 .andDo(print())
                 .andExpect(status().isConflict())
-                .andExpect(getErrorType(ErrorType.DATA_ERROR))
+                .andExpect(getErrorType(ErrorType.VALIDATION_ERROR))
                 .andExpect(getErrorDetail(EXCEPTION_DUPLICATE_DATETIME))
                 .andDo(print());
     }
@@ -189,7 +187,7 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER))
                 .content(JsonUtil.writeValue(meal)))
                 .andExpect(status().isConflict())
-                .andExpect(getErrorType(ErrorType.DATA_ERROR))
+                .andExpect(getErrorType(ErrorType.VALIDATION_ERROR))
                 .andExpect(getErrorDetail(EXCEPTION_DUPLICATE_DATETIME))
                 .andDo(print());
     }

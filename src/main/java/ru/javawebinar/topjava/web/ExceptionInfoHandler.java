@@ -62,7 +62,7 @@ public class ExceptionInfoHandler {
                     .filter(elem->lowerExMessage.contains(elem.getKey()))
                     .findAny();
             if(entry.isPresent()){
-                return logAndGetErrorInfo(req,e,true,DATA_ERROR,messageUtil.getMessage(entry.get().getValue()));
+                return logAndGetErrorInfo(req,e,true,VALIDATION_ERROR,messageUtil.getMessage(entry.get().getValue()));
             }
         }
         return logAndGetErrorInfo(req,e,true,DATA_ERROR);
@@ -76,7 +76,7 @@ public class ExceptionInfoHandler {
         String[] details=result.getFieldErrors().stream().
                 map(fe->{
                     String msg=fe.getDefaultMessage();
-                    return msg==null ? null : msg.startsWith(fe.getField()) ? msg : fe.getField()+' '+msg;
+                    return msg==null ? messageUtil.getMessage(fe) : msg.startsWith(fe.getField()) ? msg : fe.getField()+' '+msg;
                 }).filter(Objects::nonNull)
                 .toArray(String[]::new);
         return logAndGetErrorInfo(req,e,false,VALIDATION_ERROR,details);

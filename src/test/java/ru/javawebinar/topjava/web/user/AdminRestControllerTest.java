@@ -12,7 +12,6 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.ErrorType;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
-import ru.javawebinar.topjava.web.ExceptionInfoHandler;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
 import java.util.Collections;
@@ -165,8 +164,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN))
                 .content(UserTestData.jsonWithPassword(expected,"newpass")))
                 .andDo(print())
-                .andExpect(status().isConflict())
-                .andExpect(getErrorType(ErrorType.DATA_ERROR))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(getErrorType(ErrorType.VALIDATION_ERROR))
                 .andExpect(getErrorDetail(EXCEPTION_DUPLICATE_EMAIL))
                 .andDo(print());
     }
@@ -180,8 +179,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(jsonWithPassword(newUser,USER.getPassword())))
-                .andExpect(status().isConflict())
-                .andExpect(getErrorType(ErrorType.DATA_ERROR))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(getErrorType(ErrorType.VALIDATION_ERROR))
                 .andExpect(getErrorDetail(EXCEPTION_DUPLICATE_EMAIL))
                 .andDo(print());
     }

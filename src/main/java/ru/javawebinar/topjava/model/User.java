@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -10,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Cache;
+import ru.javawebinar.topjava.HasEmail;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -26,7 +26,7 @@ import static ru.javawebinar.topjava.util.UserUtil.DEFAULT_EXCEED_CALORIES;
 })
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(name = "users_unique_email_idx", columnNames = "email")})
-public class User extends AbstractNamedEntity {
+public class User extends AbstractNamedEntity implements HasEmail {
     public static final String DELETE = "User_delete";
     public static final String BY_EMAIL = "User_byEmail";
     public static final String ALL_SORTED = "User_getAllSorted";
