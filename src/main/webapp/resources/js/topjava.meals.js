@@ -70,6 +70,8 @@ $(function(){
         ,
         updateTable: updateTableByFilter
 });
+
+    $.datetimepicker.setLocale(localeCode);
     const startDate=$('#startDate');
     const endDate=$('#endDate');
     startDate.datetimepicker({

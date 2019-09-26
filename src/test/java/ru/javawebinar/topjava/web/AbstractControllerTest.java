@@ -76,7 +76,7 @@ public class AbstractControllerTest {
     }
 
     private String getMessage(String code){
-        return messageUtil.getMessage(code, Locale.ENGLISH);
+       return messageUtil.getMessage(code, MessageUtil.RU_LOCALE);
     }
 
     public ResultMatcher getErrorType(ErrorType type){
