@@ -38,10 +38,6 @@ public class GlobalControllerExceptionHandler {
         mav.addObject("exception",rootCause);
         mav.addObject("message",ValidationUtil.getExceptionMessage(rootCause));
 
-        AuthorizedUser authorizedUser = SecurityUtil.safeGet();
-        if (authorizedUser != null) {
-            mav.addObject("userTo", authorizedUser.getUserTo());
-        }
         return mav;
     }
 
