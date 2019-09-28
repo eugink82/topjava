@@ -7,7 +7,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import ru.javawebinar.topjava.TestUtil;
+import ru.javawebinar.topjava.View;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -189,6 +191,18 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isConflict())
                 .andExpect(getErrorType(ErrorType.VALIDATION_ERROR))
                 .andExpect(getErrorDetail(EXCEPTION_DUPLICATE_DATETIME))
+                .andDo(print());
+    }
+
+    @Test
+    void updateUnSafeHtml() throws Exception {
+        Meal meal = new Meal(MEAL_ID, LocalDateTime.of(2017, Month.MAY, 28, 13, 0),"<script>alert('XSS')</script>",780);
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL + MEAL_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(USER))
+                .content(JsonUtil.writeValue(meal)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(getErrorType(ErrorType.VALIDATION_ERROR))
                 .andDo(print());
     }
 }

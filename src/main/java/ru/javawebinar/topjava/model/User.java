@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.Cache;
 import ru.javawebinar.topjava.HasEmail;
+import ru.javawebinar.topjava.View;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -36,6 +38,7 @@ public class User extends AbstractNamedEntity implements HasEmail {
     @Email
     @NotBlank
     @Size(max = 100)
+    @SafeHtml(groups={View.Web.class})
     private String email;
 
     @Column(name = "password", nullable = false)
