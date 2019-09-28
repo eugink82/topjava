@@ -9,7 +9,7 @@
 
 <bean class="ru.javawebinar.topjava.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
 
-<mvc:default-servlet-handler/>
+<!--<mvc:default-servlet-handler/>-->
 
     <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
