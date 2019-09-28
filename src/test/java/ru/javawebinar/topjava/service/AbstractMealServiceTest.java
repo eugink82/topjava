@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.exception.ErrorType;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
@@ -13,14 +14,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static java.time.LocalDateTime.of;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.javawebinar.topjava.UserTestData.*;
 import static ru.javawebinar.topjava.MealTestData.*;
 
 
-
-public abstract class AbstractMealServiceTest extends AbstractServiceTest{
+public abstract class AbstractMealServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected MealService service;
@@ -41,14 +40,14 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest{
 
     @Test
     void deleteNotExists() {
-        assertThrows(NotFoundException.class,()->
-        service.delete(1, USER_ID));
+        assertThrows(NotFoundException.class, () ->
+                service.delete(1, USER_ID));
     }
 
     @Test
     void deleteNotOwn() {
-        assertThrows(NotFoundException.class,()->
-        service.delete(MEAL_ID, ADMIN_ID));
+        assertThrows(NotFoundException.class, () ->
+                service.delete(MEAL_ID, ADMIN_ID));
     }
 
     @Test
@@ -59,14 +58,14 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest{
 
     @Test
     void getNotExists() {
-        assertThrows(NotFoundException.class,()->
-        service.get(1, USER_ID));
+        assertThrows(NotFoundException.class, () ->
+                service.get(1, USER_ID));
     }
 
     @Test
     void getNotOwn() {
-        assertThrows(NotFoundException.class,()->
-        service.get(MEAL_ID, ADMIN_ID));
+        assertThrows(NotFoundException.class, () ->
+                service.get(MEAL_ID, ADMIN_ID));
     }
 
     @Test
@@ -78,9 +77,13 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest{
 
     @Test
     void updateNotExists() {
-        NotFoundException e=assertThrows(NotFoundException.class,()->
-        service.update(MEAL1, ADMIN_ID));
-        assertEquals(e.getMessage(), "Не найдена сущность с id="  + MEAL_ID);
+        NotFoundException e = assertThrows(NotFoundException.class, () ->
+                service.update(MEAL1, ADMIN_ID));
+        String msg=e.getMessage();
+        assertTrue(msg.contains(ErrorType.DATA_NOT_FOUND.name()));
+        assertTrue(msg.contains(NotFoundException.EXCEPTION_NOT_FOUND));
+        assertTrue(msg.contains(String.valueOf(MEAL_ID)));
+
     }
 
     @Test

@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.util.ValidationUtil;
+import ru.javawebinar.topjava.util.exception.ApplicationException;
 import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.util.exception.ErrorType;
 
@@ -23,20 +24,25 @@ public class GlobalControllerExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public ModelAndView wrongRequest(HttpServletRequest req, Exception e){
-        return logAndGetExceptionView(req,e,true,ErrorType.WRONG_REQUEST);
+        return logAndGetExceptionView(req,e,true,ErrorType.WRONG_REQUEST,null);
+    }
+
+    @ExceptionHandler(ApplicationException.class)
+    public ModelAndView applicationErrorHandler(HttpServletRequest req, ApplicationException appEx){
+        return logAndGetExceptionView(req,appEx,true,appEx.getType(),messageUtil.getMessage(appEx));
     }
 
     @ExceptionHandler(Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e){
-        return logAndGetExceptionView(req, e,true,ErrorType.APP_ERROR);
+        return logAndGetExceptionView(req, e,true,ErrorType.APP_ERROR,null);
     }
 
-    private ModelAndView logAndGetExceptionView(HttpServletRequest req, Exception e,boolean logException, ErrorType errorType) {
+    private ModelAndView logAndGetExceptionView(HttpServletRequest req, Exception e,boolean logException, ErrorType errorType, String msg) {
         Throwable rootCause=ValidationUtil.logAndGetRootCause(req,log,e,logException,errorType);
         ModelAndView mav=new ModelAndView("exception/exception");
         mav.addObject("typeMessage",messageUtil.getMessage(errorType.getErrorCode()));
         mav.addObject("exception",rootCause);
-        mav.addObject("message",ValidationUtil.getExceptionMessage(rootCause));
+        mav.addObject("message",msg!=null ? msg : ValidationUtil.getExceptionMessage(rootCause));
 
         return mav;
     }

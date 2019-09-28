@@ -3,7 +3,9 @@ package ru.javawebinar.topjava;
 public class Profiles {
     public static final String JPA="jpa",
                                JDBC="jdbc",
-                                DATAJPA="datajpa";
+                                DATAJPA="datajpa",
+                                HEROKU="heroku";
+
     public static final String REPOSITORY_IMPLEMENTATION=DATAJPA;
     public static final String POSTGRES_DB="postgres",
             HSQL_DB="hsqldb";

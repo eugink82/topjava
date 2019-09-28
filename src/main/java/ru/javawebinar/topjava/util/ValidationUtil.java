@@ -32,9 +32,9 @@ public class ValidationUtil {
         return object;
     }
 
-    public static void checkNotFound(boolean found, String msg) {
+    public static void checkNotFound(boolean found, String arg) {
         if (!found) {
-            throw new NotFoundException("Не найдена сущность с id=" + msg);
+            throw new NotFoundException(arg);
         }
     }
 
