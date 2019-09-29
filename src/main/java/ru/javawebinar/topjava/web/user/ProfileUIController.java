@@ -21,7 +21,7 @@ import static ru.javawebinar.topjava.web.ExceptionInfoHandler.EXCEPTION_DUPLICAT
 public class ProfileUIController extends AbstractUserController {
     @GetMapping
     public String profiles(ModelMap model, @AuthenticationPrincipal AuthorizedUser authUser) {
-        model.addAttribute("userTo",authUser);
+        model.addAttribute("userTo",authUser.getUserTo());
         return "profile";
     }
 
@@ -31,7 +31,7 @@ public class ProfileUIController extends AbstractUserController {
             return "profile";
         }
         super.update(userTo, authUser.getId());
-        SecurityUtil.get().update(userTo);
+        authUser.update(userTo);
         status.setComplete();
         return "redirect:meals";
     }
